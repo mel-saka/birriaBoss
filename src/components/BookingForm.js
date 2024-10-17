@@ -175,7 +175,7 @@ const BookingForm = () => {
         {/* Add logo at the top */}
      
         <img src={`${process.env.PUBLIC_URL}/images/Birria_Boss_favicon_red.png`} alt="Birria Boss Logo" style={customStyles.logo} />
-        <h1 style={customStyles.header}>Book Your Event</h1>
+        <h1 style={customStyles.header}>Book Us For Your Event!</h1>
         <h2 style={customStyles.subheader}>Fill out the form below to get started</h2>
 
         <form onSubmit={handleSubmit}>
