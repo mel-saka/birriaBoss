@@ -32,12 +32,26 @@ const BookingForm = () => {
   maxDate.setFullYear(today.getFullYear() + 2);
 
   const eventTypes = [
-    { label: 'Corporate', value: 'corporate' },
-    { label: 'Wedding', value: 'wedding' },
-    { label: 'Birthday', value: 'birthday' },
-    { label: 'Festival', value: 'festival' },
-    { label: 'Other', value: 'other' }
-  ];
+    { label: <><i className="pi pi-briefcase" style={{ color: '#DB0B00', marginRight: '8px' }}></i>Corporate</>, value: 'corporate' },
+    { label: <><i className="pi pi-heart-fill" style={{ color: '#DB0B00', marginRight: '8px' }}></i>Wedding</>, value: 'wedding' },
+    { label: <><i className="pi pi-users" style={{ color: '#DB0B00', marginRight: '8px' }}></i>Community Event</>, value: 'communityEvent' },
+    { label: <><i className="pi pi-ticket" style={{ color: '#DB0B00', marginRight: '8px' }}></i>Sporting Event</>, value: 'sportingEvent' },
+    { label: <><i className="pi pi-star" style={{ color: '#DB0B00', marginRight: '8px' }}></i>Birthday Party</>, value: 'birthdayparty' },
+    { label: <><i className="pi pi-map-marker" style={{ color: '#DB0B00', marginRight: '8px' }}></i>Street Food Festival</>, value: 'streetFoodFestival' },
+    { label: <><i className="pi pi-shopping-bag" style={{ color: '#DB0B00', marginRight: '8px' }}></i>Farmer’s Market</>, value: 'farmersMarket' },
+    { label: <><i className="pi pi-car" style={{ color: '#DB0B00', marginRight: '8px' }}></i>Food Truck Rally</>, value: 'foodTruckRally' },
+    { label: <><i className="pi pi-volume-up" style={{ color: '#DB0B00', marginRight: '8px' }}></i>Music Festival</>, value: 'musicFestival' },
+    { label: <><i className="pi pi-home" style={{ color: '#DB0B00', marginRight: '8px' }}></i>Flat Party</>, value: 'flatparty' },
+    { label: <><i className="pi pi-eye-slash" style={{ color: '#DB0B00', marginRight: '8px' }}></i>Private Party</>, value: 'privateParty' },
+    { label: <><i className="pi pi-calendar" style={{ color: '#DB0B00', marginRight: '8px' }}></i>Holiday Market</>, value: 'holidayMarket' },
+    { label: <><i className="pi pi-calendar-plus" style={{ color: '#DB0B00', marginRight: '8px' }}></i>Seasonal Festival</>, value: 'seasonalFestival' },
+    { label: <><i className="pi pi-book" style={{ color: '#DB0B00', marginRight: '8px' }}></i>Graduation Party</>, value: 'graduationParty' },
+    { label: <><i className="pi pi-sitemap" style={{ color: '#DB0B00', marginRight: '8px' }}></i>Competition</>, value: 'competition' },
+    { label: <><i className="pi pi-palette" style={{ color: '#DB0B00', marginRight: '8px' }}></i>Product Launch</>, value: 'productLaunch' },
+    { label: <><i className="pi pi-home" style={{ color: '#DB0B00', marginRight: '8px' }}></i>Homecoming</>, value: 'homecoming' },
+    { label: <><i className="pi pi-bell" style={{ color: '#DB0B00', marginRight: '8px' }}></i>Church Event</>, value: 'churchEvent' },
+    { label: <><i className="pi pi-ellipsis-h" style={{ color: '#DB0B00', marginRight: '8px' }}></i>Other</>, value: 'other' }
+];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
