@@ -100,7 +100,7 @@ const BookingForm = () => {
 
   const customStyles = {
     pageBackground: {
-      backgroundColor: '#FFD9F0',
+      backgroundColor: '#DB0B00',
       backgroundImage: 'url(/images/Birria_Boss_pattern_TRANSPARENT-02.png)',
       backgroundRepeat: 'repeat',
       backgroundPosition: 'center',
