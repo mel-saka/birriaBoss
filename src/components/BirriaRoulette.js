@@ -1,8 +1,8 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Wheel } from 'react-custom-roulette';
 import { Button } from 'primereact/button';
-import { Dialog } from 'primereact/dialog';
 import { Sidebar } from 'primereact/sidebar';
+import { Toast } from 'primereact/toast';
 import { Trophy, Star, Camera, X } from 'lucide-react';
 
 const BirriaRoulette = () => {
@@ -10,9 +10,10 @@ const BirriaRoulette = () => {
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [points, setPoints] = useState(125);
   const [visibleInventory, setVisibleInventory] = useState(false);
-  const [showDialog, setShowDialog] = useState(false);
-  const [dialogMessage, setDialogMessage] = useState('');
   const spinCost = 25;
+  const toastRef = useRef(null);
+  const [wonPrize, setWonPrize] = useState(null);
+  const [wasZeroBeforeSpin, setWasZeroBeforeSpin] = useState(false);
 
   const colors = {
     yellow: '#EDBE4C',
@@ -24,25 +25,49 @@ const BirriaRoulette = () => {
   };
 
   const prizes = [
-    { name: "3 Tacos + Consomme", color: colors.red, icon: <Trophy />, weight: 20, value: "$28.90" },
-    { name: "10 Giveaways Entries", color: colors.yellow, icon: <Star />, weight: 500, value: "Giveaway" },
-    { name: "Birria Ramen", color: colors.pink, icon: <Camera />, weight: 20, value: "$24.70" },
-    { name: "100 Boss Points", color: colors.hotPink, icon: <Star />, points: 100, value: "Points", weight: 250 },
+    { name: "3 Tacos + Consomme", color: colors.hotPink, icon: <Trophy />, weight: 20, value: "$28.90" },
+    { name: "10 Giveaways Entries", color: colors.pink, icon: <Star />, weight: 500, value: "Giveaway" },
+    { name: "Birria Ramen", color: colors.hotPink, icon: <Camera />, weight: 20, value: "$24.70" },
+    { name: "100 Boss Points", color: colors.red, icon: <Star />, points: 100, value: "Points", weight: 250 },
     { name: "Unlucky", color: colors.gray, icon: <X />, weight: 500, value: "Try Again" },
-    { name: "Birria Quesadilla", color: colors.red, icon: <Trophy />, weight: 20, value: "$29.90" },
-    { name: "25 Boss Points", color: colors.yellow, icon: <Star />, points: 25, value: "Points", weight: 333 },
-    { name: "Mint Limeade", color: colors.pink, icon: <Camera />, weight: 20, value: "$12.00" },
-    { name: "15% Off Voucher", color: colors.hotPink, icon: <Star />, weight: 200, value: "Discount" },
-    { name: "$100 Voucher", color: colors.red, icon: <Trophy />, weight: 10, value: "$100" },
+    { name: "Birria Quesadilla", color: colors.hotPink, icon: <Trophy />, weight: 20, value: "$29.90" },
+    { name: "25 Boss Points", color: colors.red, icon: <Star />, points: 25, value: "Points", weight: 333 },
+    { name: "Mint Limeade", color: colors.hotPink, icon: <Camera />, weight: 20, value: "$12.00" },
+    { name: "15% Off Voucher", color: colors.pink, icon: <Star />, weight: 200, value: "Discount" },
+    { name: "$100 Voucher", color: colors.yellow, icon: <Trophy />, weight: 10, value: "$100" },
     { name: "$1000 Cash Prize", color: colors.yellow, icon: <Star />, weight: 1, value: "$1000" },
-    { name: "Royalty Stamp", color: colors.yellow, icon: <Star />, weight: 167, value: "Stamp" },
+    { name: "Royalty Stamp", color: colors.pink, icon: <Star />, weight: 167, value: "Stamp" },
   ];
 
   const [inventory, setInventory] = useState({});
+  const toastQueue = useRef([]);
+
+  const showToast = (message) => {
+    if (toastRef.current) {
+      toastRef.current.show(message);
+    }
+  };
+
+  const processToastQueue = () => {
+    if (toastQueue.current.length > 0) {
+      const nextToast = toastQueue.current.shift();
+      showToast({
+        ...nextToast,
+        onHide: processToastQueue,
+      });
+    }
+  };
+
+  const addToToastQueue = (message) => {
+    toastQueue.current.push(message);
+    if (toastQueue.current.length === 1) {
+      processToastQueue();
+    }
+  };
 
   const addToInventory = (prize) => {
     if (prize.points) {
-      setPoints(prev => prev + prize.points);
+      setPoints((prev) => prev + prize.points);
     } else {
       setInventory((prev) => ({
         ...prev,
@@ -71,24 +96,56 @@ const BirriaRoulette = () => {
       setPrizeNumber(prizeIndex);
       setMustSpin(true);
     } else {
-      setDialogMessage("Not enough points to spin.");
-      setShowDialog(true);
+      addToToastQueue({
+        severity: 'warn',
+        summary: 'Not enough points',
+        detail: 'You need more points to spin.',
+      });
     }
   };
 
   const handleSpinEnd = () => {
     setMustSpin(false);
     const selectedPrize = prizes[prizeNumber];
-    setDialogMessage(selectedPrize.name === "Unlucky" ? "Better luck next time!" : `Congratulations! You won: ${selectedPrize.name}`);
-    setShowDialog(true);
 
     if (selectedPrize.name !== "Unlucky") {
       addToInventory(selectedPrize);
+      setWonPrize(selectedPrize);
+
+      addToToastQueue({
+        severity: 'success',
+        summary: 'Congratulations!',
+        detail: `You won: ${selectedPrize.name} (${selectedPrize.value})`,
+        life: 3000,
+      });
+    } else {
+      addToToastQueue({
+        severity: 'info',
+        summary: 'Spin Result',
+        detail: 'Better luck next time!',
+        life: 3000,
+      });
     }
   };
 
+  useEffect(() => {
+    if (wonPrize && points === 0) {
+      setVisibleInventory(true);
+      setWonPrize(null); // Reset wonPrize after handling
+    }
+  }, [wonPrize, points]);
+
+  // Close panel if points change from 0 to a non-zero value after the panel opens
+  useEffect(() => {
+    if (visibleInventory && points !== 0) {
+      setVisibleInventory(false);
+    }
+  }, [points, visibleInventory]);
+
   return (
     <div style={{ backgroundColor: colors.white, minHeight: "100vh", padding: "2rem", display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <Toast ref={toastRef} />
+
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', maxWidth: '600px', marginBottom: '1rem', padding: '1rem', background: colors.pink, borderRadius: '8px' }}>
         <h1 style={{ color: colors.red, fontWeight: 'bold' }}>Spin & Win!</h1>
         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -131,11 +188,6 @@ const BirriaRoulette = () => {
         />
         <p style={{ color: colors.red, marginTop: '0.5rem' }}>Each spin costs {spinCost} points</p>
       </div>
-
-      <Dialog header="Spin Result" visible={showDialog} onHide={() => setShowDialog(false)} style={{ width: '50vw', background: colors.white }}>
-        <p style={{ color: colors.red, fontWeight: 'bold', textAlign: 'center' }}>{dialogMessage}</p>
-        <Button label="Close" onClick={() => setShowDialog(false)} className="p-button-secondary" style={{ marginTop: '1rem', display: 'block', marginLeft: 'auto', marginRight: 'auto' }} />
-      </Dialog>
 
       <Sidebar visible={visibleInventory} onHide={() => setVisibleInventory(false)} fullScreen style={{ backgroundColor: colors.white }}>
         <h3 style={{ color: colors.red }}>My Prizes</h3>
