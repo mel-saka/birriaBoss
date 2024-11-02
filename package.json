@@ -10,12 +10,21 @@
         "eject": "react-scripts eject"
     },
     "dependencies": {
+        "autoprefixer": "^10.4.20",
+        "class-variance-authority": "^0.7.0",
+        "clsx": "^2.1.1",
+        "lucide-react": "^0.454.0",
+        "postcss": "^8.4.47",
         "primeflex": "^3.0.0",
         "primeicons": "^5.0.0",
         "primereact": "^9.0.0",
         "react": "^18.0.0",
+        "react-custom-roulette": "^1.4.1",
         "react-dom": "^18.0.0",
-        "react-scripts": "^5.0.1"
+        "react-router-dom": "^6.27.0",
+        "react-scripts": "^5.0.1",
+        "tailwind-merge": "^2.5.4",
+        "tailwindcss": "^3.4.14"
     },
     "browserslist": {
         "production": [
@@ -28,5 +37,11 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@shadcn/ui": "^0.0.4"
     }
 }
