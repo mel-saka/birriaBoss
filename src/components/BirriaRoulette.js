@@ -11,9 +11,8 @@ const BirriaRoulette = () => {
   const [points, setPoints] = useState(125);
   const [visibleInventory, setVisibleInventory] = useState(false);
   const spinCost = 25;
-  const toastRef = useRef(null);
-  const [wonPrize, setWonPrize] = useState(null);
-  const [wasZeroBeforeSpin, setWasZeroBeforeSpin] = useState(false);
+  const toastRef = useRef(null); // Reference for toast notifications
+  const [wonPrize, setWonPrize] = useState(null); // Track the latest prize won to trigger inventory update toast
 
   const colors = {
     yellow: '#EDBE4C',
@@ -40,12 +39,10 @@ const BirriaRoulette = () => {
   ];
 
   const [inventory, setInventory] = useState({});
-  const toastQueue = useRef([]);
+  const toastQueue = useRef([]); // Queue to store toast messages
 
   const showToast = (message) => {
-    if (toastRef.current) {
-      toastRef.current.show(message);
-    }
+    toastRef.current.show(message);
   };
 
   const processToastQueue = () => {
@@ -53,7 +50,7 @@ const BirriaRoulette = () => {
       const nextToast = toastQueue.current.shift();
       showToast({
         ...nextToast,
-        onHide: processToastQueue,
+        onHide: processToastQueue, // Process the next toast after the current one hides
       });
     }
   };
@@ -67,7 +64,7 @@ const BirriaRoulette = () => {
 
   const addToInventory = (prize) => {
     if (prize.points) {
-      setPoints((prev) => prev + prize.points);
+      setPoints(prev => prev + prize.points);
     } else {
       setInventory((prev) => ({
         ...prev,
@@ -110,7 +107,7 @@ const BirriaRoulette = () => {
 
     if (selectedPrize.name !== "Unlucky") {
       addToInventory(selectedPrize);
-      setWonPrize(selectedPrize);
+      setWonPrize(selectedPrize); // Set wonPrize to trigger inventory update toast
 
       addToToastQueue({
         severity: 'success',
@@ -129,22 +126,23 @@ const BirriaRoulette = () => {
   };
 
   useEffect(() => {
-    if (wonPrize && points === 0) {
-      setVisibleInventory(true);
-      setWonPrize(null); // Reset wonPrize after handling
+    if (wonPrize) {
+      const inventoryDetails = Object.values(inventory)
+        .map(prize => `${prize.name} x${prize.count}`)
+        .join(', ');
+      addToToastQueue({
+        severity: 'info',
+        summary: 'Current Inventory',
+        detail: inventoryDetails || 'No prizes won yet.',
+        life: 3000,
+      });
+      setWonPrize(null); // Reset wonPrize after showing the inventory toast
     }
-  }, [wonPrize, points]);
-
-  // Close panel if points change from 0 to a non-zero value after the panel opens
-  useEffect(() => {
-    if (visibleInventory && points !== 0) {
-      setVisibleInventory(false);
-    }
-  }, [points, visibleInventory]);
+  }, [inventory, wonPrize]);
 
   return (
     <div style={{ backgroundColor: colors.white, minHeight: "100vh", padding: "2rem", display: "flex", flexDirection: "column", alignItems: "center" }}>
-      <Toast ref={toastRef} />
+      <Toast ref={toastRef} /> {/* Toast for notifications */}
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', maxWidth: '600px', marginBottom: '1rem', padding: '1rem', background: colors.pink, borderRadius: '8px' }}>
         <h1 style={{ color: colors.red, fontWeight: 'bold' }}>Spin & Win!</h1>
