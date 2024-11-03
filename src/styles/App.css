@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
     --main-color: #DB0B00; /* Rosso Corsa */
     --secondary-color-1: #FFB4E1; /* Light Hot Pink */
@@ -286,4 +287,13 @@ header {
         height: 60px;
         font-size: 1.2rem;
     }
+    .prize-icon {
+        color: black;
+        font-size: 24px; /* Adjust size as needed */
+        padding: 6px;
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 50%;
+        margin-bottom: 8px;
+    }
+    
 }
