@@ -1,46 +1,34 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import BookingForm from './components/BookingForm';
 import BirriaRoulette from './components/BirriaRoulette';
+import BrriaBossHome from './components/BrriaBossHome';
 import Footer from './components/Footer';
+import MenuPage from './components/MenuPage';
+import OpeningHours from './components/OpeningHours';
+import ReviewPage from './components/ReviewPage.js';
+
+// Styles
 import './styles/App.css';
-import 'primereact/resources/themes/lara-light-indigo/theme.css'; // Choose a theme or replace with your theme name
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-
 
 const App = () => {
   return (
     <Router>
       <div className="App">
-        
-        
-        {/* Navigation Menu
-        <nav className="bg-gradient-to-r from-red-900 to-red-700 p-4">
-          <div className="max-w-4xl mx-auto flex justify-center space-x-6">
-            <Link 
-              to="/" 
-              className="text-white hover:text-yellow-300 transition-colors font-semibold px-4 py-2 rounded-lg hover:bg-red-800"
-            >
-              Book Catering
-            </Link>
-            <Link 
-              to="/rewards" 
-              className="text-white hover:text-yellow-300 transition-colors font-semibold px-4 py-2 rounded-lg hover:bg-red-800"
-            >
-              Rewards Game
-            </Link>
-          </div>
-        </nav> */}
-
-        {/* Routes */}
+      <Header />
         <Routes>
-          <Route path="/" element={<BookingForm />} />
+          <Route path="/" element={<BrriaBossHome />} />
+          <Route path="/booking" element={<BookingForm />} />
           <Route path="/rewards" element={<BirriaRoulette />} />
+          <Route path="/menu" element={<MenuPage />} />
+          <Route path="/hours" element={<OpeningHours />} />
+          <Route path="/reviews" element={<ReviewPage />} />
+          <Route path="/contact" element={<div>Contact Page Coming Soon</div>} />
         </Routes>
-
-        
       </div>
     </Router>
   );
