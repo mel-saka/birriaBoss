@@ -53,13 +53,6 @@ const BrriaBossHome = () => {
       description: 'Get in touch with us',
       icon: <Phone size={48} />,
       link: '/contact'
-    },
-    
-    {
-      title: 'Play and Win',
-      description: 'Win up to $1000',
-      icon: <Trophy size={48} />,
-      link: '/win'
     }
   ];
 
