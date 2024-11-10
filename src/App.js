@@ -1,5 +1,6 @@
+// App.js
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import BookingForm from './components/BookingForm';
 import BirriaRoulette from './components/BirriaRoulette';
@@ -15,21 +16,33 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 
+// New Component to handle conditional rendering
+const MainContent = () => {
+  const location = useLocation();
+
+  return (
+    <div className="App">
+      {/* Conditionally render Header */}
+      {location.pathname !== '/' && <Header />}
+      <Routes>
+        <Route path="/" element={<BrriaBossHome />} />
+        <Route path="/booking" element={<BookingForm />} />
+        <Route path="/rewards" element={<BirriaRoulette />} />
+        <Route path="/menu" element={<MenuPage />} />
+        <Route path="/hours" element={<OpeningHours />} />
+        <Route path="/reviews" element={<ReviewPage />} />
+        <Route path="/contact" element={<div>Contact Page Coming Soon</div>} />
+        <Route path="/win" element={<BirriaRoulette/>} />
+      </Routes>
+      <Footer />
+    </div>
+  );
+};
+
 const App = () => {
   return (
     <Router>
-      <div className="App">
-      <Header />
-        <Routes>
-          <Route path="/" element={<BrriaBossHome />} />
-          <Route path="/booking" element={<BookingForm />} />
-          <Route path="/rewards" element={<BirriaRoulette />} />
-          <Route path="/menu" element={<MenuPage />} />
-          <Route path="/hours" element={<OpeningHours />} />
-          <Route path="/reviews" element={<ReviewPage />} />
-          <Route path="/contact" element={<div>Contact Page Coming Soon</div>} />
-        </Routes>
-      </div>
+      <MainContent />
     </Router>
   );
 };

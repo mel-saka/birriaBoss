@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'primereact/card';
 import { useNavigate } from 'react-router-dom';
-import { Utensils, Clock, Star, Car, Instagram, Phone } from 'lucide-react';
+import { Utensils, Clock, Star, Car, Instagram, Phone, Trophy } from 'lucide-react';
 
 const BrriaBossHome = () => {
   const navigate = useNavigate();
@@ -53,6 +53,13 @@ const BrriaBossHome = () => {
       description: 'Get in touch with us',
       icon: <Phone size={48} />,
       link: '/contact'
+    },
+    
+    {
+      title: 'Play and Win',
+      description: 'Win up to $1000',
+      icon: <Trophy size={48} />,
+      link: '/win'
     }
   ];
 

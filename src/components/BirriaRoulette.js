@@ -23,7 +23,23 @@ const BirriaRoulette = () => {
     gray: '#808080',
   };
 
-  1
+  const prizes = [
+    { name: "$100 Voucher", color: colors.yellow, textColor: colors.red, icon: <Trophy />, weight: 10, value: "$100" },
+    { name: "Unlucky", color: colors.gray, textColor: colors.white, icon: <X />, weight: 500, value: "Try Again" },
+    { name: "$1000 Cash Prize", color: colors.yellow, textColor: colors.red, icon: <Star />, weight: 1, value: "$1000" },
+    
+    { name: "100 Boss Points", color: colors.red, textColor: colors.white, icon: <Star />, points: 100, value: "Points", weight: 250 },
+    { name: "25 Boss Points", color: colors.red, textColor: colors.white, icon: <Star />, points: 25, value: "Points", weight: 333 },
+    
+    { name: "Mint Limeade", color: colors.hotPink, textColor: colors.red, icon: <Camera />, weight: 20, value: "$12.00" },
+    { name: "Birria Ramen", color: colors.hotPink, textColor: colors.red, icon: <Camera />, weight: 20, value: "$24.70" },
+    { name: "Birria Quesadilla", color: colors.hotPink, textColor: colors.red, icon: <Trophy />, weight: 20, value: "$29.90" },
+    { name: "3 Tacos + Consomme", color: colors.hotPink, textColor: colors.red, icon: <Trophy />, weight: 20, value: "$28.90" },
+    
+    { name: "10 Giveaways Entries", color: colors.pink, textColor: colors.red, icon: <Star />, weight: 500, value: "Giveaway" },
+    { name: "Royalty Stamp", color: colors.pink, textColor: colors.red, icon: <Star />, weight: 167, value: "Stamp" },
+    { name: "15% Off Voucher", color: colors.pink, textColor: colors.red, icon: <Star />, weight: 200, value: "Discount" }
+  ];
   const [inventory, setInventory] = useState({});
   const toastQueue = useRef([]); // Queue to store toast messages
 
