@@ -34,7 +34,6 @@ const MainContent = () => {
         <Route path="/contact" element={<div>Contact Page Coming Soon</div>} />
         <Route path="/win" element={<BirriaRoulette/>} />
       </Routes>
-      <Footer />
     </div>
   );
 };
