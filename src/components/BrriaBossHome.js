@@ -224,6 +224,8 @@ const BrriaBossHome = () => {
           }
         }
       `}</style>
+<script src="https://static.elfsight.com/platform/platform.js" async></script>
+<div class="elfsight-app-190cfcf5-1e5c-45f7-b724-c0952a6d1624" data-elfsight-app-lazy></div>
     </div>
   );
 };
