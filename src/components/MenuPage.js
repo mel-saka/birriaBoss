@@ -13,7 +13,7 @@ const MenuPage = () => {
       items: [
         {
           name: "3 Birria Tacos with Consomme",
-          price: 28.90,
+          price: 24.00,
           description: "3 delicious tacos, crisped on the grill with melted cheese and slow-cooked birria beef served with consomme for dipping. Topped with fresh onions and cilantro.",
           image: "/images/menu.jpg",
           tag: "Chef's Choice"
@@ -32,9 +32,9 @@ const MenuPage = () => {
       items: [
         {
           name: "Birria Quesadilla",
-          price: 29.90,
+          price: 26.00,
           description: "Our delicious birria beef served in a 12\" tortilla and grilled to crispy perfection with melted cheese. A hearty meal that serves 1-2 people.",
-          image: "/images/quesadilla.jpg",
+          image: "/images/qass.jpg",
           tag: "Customer Favorite"
         }
       ]
@@ -45,7 +45,7 @@ const MenuPage = () => {
       items: [
         {
           name: "Birria Ramen",
-          price: 24.70,
+          price: 19.00,
           description: "Buldak ramen, cooked in our mouthwatering birria consomme broth, topped with tender birria beef. A perfect blend of cultures in every bowl.",
           image: "/images/ramen.jpg",
           tag: "Must Try!"
@@ -58,7 +58,7 @@ const MenuPage = () => {
       items: [
         {
           name: "Consomme Cup",
-          price: 6.50,
+          price: 5.00,
           description: "Our signature beef broth, slow-cooked for hours with a blend of Mexican spices and chiles. Perfect for dipping or sipping!",
           image: "/images/taco.jpg",
           tag: "Essential"
@@ -72,7 +72,7 @@ const MenuPage = () => {
         items: [
           {
             name: "Fresh Iced Mint Limeade",
-            price: 4.50,  // You'll need to set the actual price
+            price: 9.00,  // You'll need to set the actual price
             description: "A refreshing blend of fresh lime juice and mint leaves over ice.",
             image: "/images/limeade.jpg",
             tag: "Popular"
@@ -84,10 +84,10 @@ const MenuPage = () => {
         description: "Our unique Mexican-Italian fusion creation",
         items: [
           {
-            name: "BIRRIA PIZZA (Feeds 3)",
-            price: 32.90, // You'll need to set the actual price
-            description: "Add Drink, Choice of Add Ons",
-            image: "/images/menu.jpg",
+            name: "BIRRIA PIZZA",
+            price: 40.00, // You'll need to set the actual price
+            description: "taste both of best worlds from our italian and mexiacan infusion pizza filled with mozzarella",
+            image: "/images/pizza.jpg",
             tag: "Popular"
           }
         ]
@@ -101,92 +101,53 @@ const MenuPage = () => {
 
   return (
     <div className="menu-showcase">
-<style>{`
-  .menu-showcase {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 3rem 1rem;
-    background-color: #F0F2E4;
-  }
+      <style>{`
+        .menu-showcase {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 3rem 1rem;
+          background-color: #F0F2E4;
+        }
 
-  .menu-header {
-    text-align: center;
-    margin-bottom: 4rem;
-    padding: 2rem;
-    background: linear-gradient(45deg, #DB0B00, #FFB4E1);
-    color: white;
-    border-radius: 12px;
-  }
+        .menu-header {
+          text-align: center;
+          margin-bottom: 4rem;
+          padding: 2rem;
+          background: linear-gradient(45deg, #DB0B00, #FFB4E1);
+          color: white;
+          border-radius: 12px;
+        }
 
-  .menu-header h1 {
-    font-size: 2.45vw; /* Slightly reduced */
-    margin-bottom: 1rem;
-  }
+        .menu-header h1 {
+          font-size: 2.45vw;
+          margin-bottom: 1rem;
+        }
 
-  .menu-header p {
-    font-size: 1.05rem; /* Slightly reduced */
-    max-width: 600px;
-    margin: 0 auto;
-  }
+        .menu-item-image-container {
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
 
-  .category-title {
-    font-size: 1.95vw; /* Slightly reduced */
-    font-weight: bold;
-    color: #DB0B00;
-    margin-bottom: 0.5rem;
-  }
+        .menu-item-image {
+          width: 500px; /* Reduced width */
+          height: 500px; /* Reduced height */
+          object-fit: cover;
+          border-radius: 8px;
+        }
 
-  .category-description {
-    color: #666;
-    font-size: 0.95rem; /* Slightly reduced */
-    max-width: 700px;
-    margin: 0 auto;
-  }
-
-  .menu-item-name {
-    font-size: 1.35rem; /* Slightly reduced */
-    font-weight: bold;
-    color: #333;
-    margin: 0;
-  }
-
-  .menu-item-price {
-    font-weight: bold;
-    color: #DB0B00;
-    font-size: 1.25rem; /* Slightly reduced */
-  }
-
-  .menu-item-description {
-    color: #666;
-    font-size: 0.95rem; /* Slightly reduced */
-    line-height: 1.6;
-  }
-
-  .tag {
-    font-size: 0.85rem; /* Slightly reduced */
-    font-weight: bold;
-  }
-
-  /* Responsive Styles */
-  @media (max-width: 768px) {
-    .menu-header h1 {
-      font-size: 1.95rem; /* Slightly reduced for mobile */
-    }
-
-    .category-title {
-      font-size: 1.65rem; /* Slightly reduced for mobile */
-    }
-
-    .menu-item-name, .menu-item-price {
-      font-size: 1.15rem; /* Slightly reduced for mobile */
-    }
-
-    .menu-item-description {
-      font-size: 0.85rem; /* Slightly reduced for mobile */
-    }
-  }
-`}</style>
-
+        .tag {
+          font-size: 0.85rem;
+          font-weight: bold;
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background-color: rgba(255, 255, 255, 0.8);
+          padding: 4px 8px;
+          border-radius: 4px;
+        }
+      `}</style>
 
       <div className="menu-header">
         <h1>Our Menu</h1>

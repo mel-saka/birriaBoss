@@ -9,9 +9,9 @@ const MenuItemDetail = ({ item, visible, onHide }) => {
     "3 Birria Tacos with Consomme": {
       longDescription: "Experience the ultimate comfort food with our signature birria tacos. Each taco is stuffed with tender, slow-cooked beef that's been marinated in a blend of chiles and spices for hours. We grill them to perfection until the cheese is melted and the tortillas are crispy, creating that perfect contrast of textures in every bite.",
       ingredients: [
-        "Corn tortillas",
+        "Corn or flour tortillas",
         "Slow-cooked birria beef",
-        "Melted Oaxaca cheese",
+        "cheese",
         "Fresh white onions",
         "Cilantro",
         "House-made consomme",
@@ -19,15 +19,15 @@ const MenuItemDetail = ({ item, visible, onHide }) => {
       ],
       preparationTime: "15-20 minutes",
       spiceLevel: "Medium",
-      servingInfo: "Serves 1-2 people",
+      servingInfo: "Serves 1 person",
       dietaryInfo: "Contains dairy, gluten-free corn tortillas available"
     },
     "Single Birria Taco": {
       longDescription: "Our single birria taco is perfect for first-time tasters or as a quick snack. The tortilla is dipped in our rich consomme before being grilled until crispy, creating a perfect harmony of flavors in every bite.",
       ingredients: [
-        "Corn tortilla",
+        "Corn or flour tortillas",
         "Slow-cooked birria beef",
-        "Melted Oaxaca cheese",
+        "Melted cheese",
         "Fresh white onions",
         "Cilantro",
         "House-made consomme",
@@ -43,7 +43,7 @@ const MenuItemDetail = ({ item, visible, onHide }) => {
       ingredients: [
         "12\" flour tortilla",
         "Slow-cooked birria beef",
-        "Melted Oaxaca & Monterey Jack cheese blend",
+        "Cheese",
         "Fresh white onions",
         "Cilantro",
         "House-made consomme",
@@ -62,11 +62,10 @@ const MenuItemDetail = ({ item, visible, onHide }) => {
         "House-made consomme broth",
         "Green onions",
         "Cilantro",
-        "Lime wedge",
         "Special chili oil"
       ],
       preparationTime: "12-15 minutes",
-      spiceLevel: "Hot",
+      spiceLevel: "Mild to Hot",
       servingInfo: "Serves 1 person",
       dietaryInfo: "Contains gluten"
     },
@@ -74,15 +73,14 @@ const MenuItemDetail = ({ item, visible, onHide }) => {
       longDescription: "Our signature consomme is the heart of our birria dishes. This rich, flavorful broth is made by slow-cooking beef with a special blend of Mexican chiles and spices for hours until it develops its characteristic deep red color and complex flavor profile.",
       ingredients: [
         "Beef broth",
-        "Guajillo chiles",
-        "Ancho chiles",
+        "chiles",
         "Mexican spices",
         "Aromatics",
         "Fresh lime juice"
       ],
       preparationTime: "5 minutes",
       spiceLevel: "Mild",
-      servingInfo: "8 oz serving",
+      servingInfo: "Serves 1 person",
       dietaryInfo: "Gluten-free"
     },
     "Fresh Iced Mint Limeade": {
@@ -96,15 +94,15 @@ const MenuItemDetail = ({ item, visible, onHide }) => {
     ],
     preparationTime: "5 minutes",
     spiceLevel: "N/A",
-    servingInfo: "16 oz serving",
+    servingInfo: "Serves 1 person",
     dietaryInfo: "Vegan, Gluten-free"
   },
-  "BIRRIA PIZZA (Feeds 3)": {
-    longDescription: "A creative fusion dish that combines our famous birria with Italian pizza traditions. We top our house-made pizza crust with birria meat, melted cheese, and traditional Mexican toppings for a unique and delicious experience.",
+  "BIRRIA PIZZA": {
+    longDescription: "A creative fusion dish that combines our famous birria with Italian pizza traditions. We top our house-made pizza crust with birria meat, Mozzarella cheese, and traditional Mexican toppings for a unique and delicious experience.",
     ingredients: [
       "House-made pizza dough",
       "Slow-cooked birria beef",
-      "Melted cheese blend",
+      "Mozzarella cheese",
       "Fresh onions",
       "Cilantro",
       "Special pizza sauce",
