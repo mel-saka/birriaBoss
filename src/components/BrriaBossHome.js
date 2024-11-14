@@ -68,7 +68,7 @@ const BrriaBossHome = () => {
     <div className="brria-boss-home">
       {/* Header */}
       <div className="header">
-        <h1>Brria Boss</h1>
+        <h1>Birria Boss</h1>
         <p>Authentic Mexican Cuisine</p>
       </div>
 
