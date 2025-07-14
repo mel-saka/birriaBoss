@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const ComingSoon = () => {
+const  ComingSoon = () => {
   const [scrollY, setScrollY] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
