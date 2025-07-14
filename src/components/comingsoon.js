@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 const  ComingSoon = () => {
   const [scrollY, setScrollY] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isIOS, setIsIOS] = useState(false);
 
   const foodImages = [
     "/images/menu.jpg",
@@ -15,14 +14,6 @@ const  ComingSoon = () => {
   ];
 
   useEffect(() => {
-    // Detect iOS devices
-    const detectIOS = () => {
-      return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
-             (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    };
-    
-    setIsIOS(detectIOS());
-    
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -60,7 +51,7 @@ const  ComingSoon = () => {
             alt="Birria Boss Logo" 
             className="main-logo"
           />
-          <h1 className={`brand-title ${isIOS ? 'ios-font' : ''}`}>BIRRIA BOSS</h1>
+          <h1 className="brand-title">BIRRIA BOSS</h1>
           <div className="tagline">CHRISTCHURCH'S VIRAL FOOD DESTINATION</div>
         </div>
 
@@ -75,7 +66,7 @@ const  ComingSoon = () => {
               <div className="steam steam-3"></div>
             </div>
           </div>
-          <h2 className={`construction-title ${isIOS ? 'ios-font' : ''}`}>We're Cooking Something Amazing!</h2>
+          <h2 className="construction-title">We're Cooking Something Amazing!</h2>
           <p className="construction-message">
             Our website is currently under construction, but our kitchen is always open! 
             While we put the finishing touches on our digital experience, you can still 
@@ -580,6 +571,21 @@ const  ComingSoon = () => {
 
           .order-btn {
             padding: 18px 30px;
+          }
+
+          /* Additional mobile font override */
+          .brand-title {
+            font-family: 'Arial Black', 'Helvetica', sans-serif !important;
+            font-weight: 900 !important;
+            letter-spacing: 3px !important;
+            text-transform: uppercase !important;
+          }
+          
+          .construction-title {
+            font-family: 'Arial Black', 'Helvetica', sans-serif !important;
+            font-weight: 800 !important;
+            letter-spacing: 2px !important;
+            text-transform: uppercase !important;
           }
         }
 
