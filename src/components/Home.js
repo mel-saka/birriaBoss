@@ -146,7 +146,7 @@ const BrriaBossHome = () => {
           margin: 0 auto;
           padding: 0 2rem;
           display: grid;
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: 1fr 1.3fr;
           gap: 4rem;
           align-items: center;
           width: 100%;

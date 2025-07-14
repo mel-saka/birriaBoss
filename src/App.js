@@ -15,6 +15,8 @@ import './styles/App.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
+import { Contact, Home } from 'lucide-react';
+import ComingSoon from './components/comingsoon.js';
 
 // New Component to handle conditional rendering
 const MainContent = () => {
@@ -23,16 +25,17 @@ const MainContent = () => {
   return (
     <div className="App">
       {/* Conditionally render Header */}
-      {location.pathname !== '/' && <Header />}
+
       <Routes>
-        <Route path="/" element={<BrriaBossHome />} />
+        <Route path="/" element={<ComingSoon/>} />
         <Route path="/booking" element={<BookingForm />} />
         <Route path="/rewards" element={<BirriaRoulette />} />
         <Route path="/menu" element={<MenuPage />} />
         <Route path="/hours" element={<OpeningHours />} />
         <Route path="/reviews" element={<ReviewPage />} />
-        <Route path="/contact" element={<div>Contact Page Coming Soon</div>} />
+        <Route path="/contact" element={<Contact/>} />
         <Route path="/win" element={<BirriaRoulette/>} />
+        <Route path="/home" element={<Home/>} />
       </Routes>
     </div>
   );
