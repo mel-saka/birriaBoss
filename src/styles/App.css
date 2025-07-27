@@ -297,3 +297,10 @@ header {
     }
     
 }
+
+.page-wrapper {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #DB0B00 0%, #B30A00 100%);
+    color: var(--secondary-color-3);
+    font-family: 'Open Sans', Arial, sans-serif;
+}

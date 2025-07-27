@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PageWrapper from './PageWrapper';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
@@ -132,6 +133,7 @@ const OpeningHours = () => {
   }, [currentPeriod]);
 
   return (
+    <PageWrapper>
     <div className="opening-hours-page">
       <style>{`
         .opening-hours-page {
@@ -383,6 +385,7 @@ const OpeningHours = () => {
         </Button>
       </div>
     </div>
+    </PageWrapper>
   );
 };
 
