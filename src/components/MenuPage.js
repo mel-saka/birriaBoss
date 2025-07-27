@@ -2,316 +2,193 @@ import React, { useState, useEffect } from 'react';
 
 const MenuPage = () => {
   const [selectedItem, setSelectedItem] = useState(null);
-  const [dialogVisible, setDialogVisible] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
-  const [focusedItemIndex, setFocusedItemIndex] = useState(0);
+  const [hoveredCard, setHoveredCard] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const menuItems = [
     {
-      category: "Birria Tacos",
-      description: "Our signature dish - slow-cooked beef birria tacos served with rich consomme",
-      items: [
-        {
-          name: "3 Birria Tacos with Consomme",
-          price: 24.00,
-          description: "3 delicious tacos, crisped on the grill with melted cheese and slow-cooked birria beef served with consomme for dipping. Topped with fresh onions and cilantro.",
-          image: "/images/menu.jpg",
-          tag: "Chef's Choice"
-        },
-        {
-          name: "Single Birria Taco",
-          price: 11.70,
-          description: "Single birria beef taco grilled to perfection with cheese and onion & cilantro, served with consomme. Perfect for first-time tasters!",
-          image: "/images/taco.jpg"
-        }
-      ]
+      id: 1,
+      name: "3 Birria Tacos",
+      price: 24.00,
+      description: "3 delicious tacos, crisped on the grill with melted cheese and slow-cooked birria beef. Topped with fresh onions and cilantro. Served with consomme for dipping.",
+      image: "/images/menu.jpg",
+      tag: "CHEF'S CHOICE",
+      category: "Tacos"
     },
     {
-      category: "Birria Quesadilla",
-      description: "A Mexican classic reinvented with our signature birria beef",
-      items: [
-        {
-          name: "Birria Quesadilla",
-          price: 26.00,
-          description: "Our delicious birria beef served in a 12\" tortilla and grilled to crispy perfection with melted cheese. A hearty meal that serves 1-2 people.",
-          image: "/images/qass.jpg",
-          tag: "Customer Favorite"
-        }
-      ]
+      id: 2,
+      name: "Single Birria Taco",
+      price: 11.70,
+      description: "Single birria beef taco grilled to perfection with cheese, onion & cilantro. Served with consomme.",
+      image: "/images/taco.jpg",
+      category: "Tacos"
     },
     {
-      category: "Birria Ramen",
-      description: "A unique fusion dish that combines Mexican and Asian flavors",
-      items: [
-        {
-          name: "Birria Ramen",
-          price: 19.00,
-          description: "Buldak ramen, cooked in our mouthwatering birria consomme broth, topped with tender birria beef. A perfect blend of cultures in every bowl.",
-          image: "/images/ramen.jpg",
-          tag: "Must Try!"
-        }
-      ]
+      id: 3,
+      name: "Birria Quesadilla",
+      price: 26.00,
+      description: "Our delicious birria beef served in a 12\" tortilla and grilled to crispy perfection with melted cheese.",
+      image: "/images/qass.jpg",
+      tag: "CUSTOMER FAVORITE",
+      category: "Quesadillas"
     },
     {
-      category: "Consomme Cup",
-      description: "The heart and soul of our birria dishes",
-      items: [
-        {
-          name: "Consomme Cup",
-          price: 5.00,
-          description: "Our signature beef broth, slow-cooked for hours with a blend of Mexican spices and chiles. Perfect for dipping or sipping!",
-          image: "/images/taco.jpg",
-          tag: "Essential"
-        }
-      ]
+      id: 4,
+      name: "Birria Ramen",
+      price: 19.00,
+      description: "Buldak ramen cooked in our mouthwatering birria consomme broth, topped with tender birria beef.",
+      image: "/images/ramen.jpg",
+      tag: "MUST TRY!",
+      category: "Fusion"
     },
     {
-      category: "Beverages",
-      description: "Refreshing drinks to complement your meal",
-      items: [
-        {
-          name: "Fresh Iced Mint Limeade",
-          price: 9.00,
-          description: "A refreshing blend of fresh lime juice and mint leaves over ice.",
-          image: "/images/limeade.jpg",
-          tag: "Popular"
-        }
-      ]
+      id: 5,
+      name: "Birria Pizza",
+      price: 40.00,
+      description: "Italian and Mexican fusion pizza filled with mozzarella, birria beef, and our special sauce.",
+      image: "/images/pizza.jpg",
+      tag: "NEW!",
+      category: "Fusion"
     },
     {
-      category: "Birria Pizza",
-      description: "Our unique Mexican-Italian fusion creation",
-      items: [
-        {
-          name: "BIRRIA PIZZA",
-          price: 40.00,
-          description: "Taste both of best worlds from our Italian and Mexican infusion pizza filled with mozzarella",
-          image: "/images/pizza.jpg",
-          tag: "Popular"
-        }
-      ]
+      id: 6,
+      name: "Consomme Cup",
+      price: 5.00,
+      description: "Our signature beef broth, slow-cooked for hours with Mexican spices and chiles.",
+      image: "/images/taco.jpg",
+      tag: "ESSENTIAL",
+      category: "Sides"
+    },
+    {
+      id: 7,
+      name: "Fresh Iced Mint Limeade",
+      price: 9.00,
+      description: "A refreshing blend of fresh lime juice and mint leaves over ice.",
+      image: "/images/limeade.jpg",
+      category: "Beverages"
     }
   ];
 
-  // Flatten all menu items for easier tracking
-  const allMenuItems = menuItems.reduce((acc, category, categoryIndex) => {
-    category.items.forEach((item, itemIndex) => {
-      acc.push({
-        ...item,
-        categoryIndex,
-        itemIndex,
-        globalIndex: acc.length,
-        category: category.category
-      });
-    });
-    return acc;
+  useEffect(() => {
+    // Simulate loading animation
+    setTimeout(() => setIsLoading(false), 1500);
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setScrollY(currentScrollY);
-      
-      // Calculate which item should be in focus based on scroll position
-      const viewportHeight = window.innerHeight;
-      const headerHeight = 600; // Approximate header height
-      const itemTransitionHeight = 400; // Height per item transition (shorter for smoother transitions)
-      
-      const scrollFromContent = Math.max(0, currentScrollY - headerHeight);
-      const newFocusIndex = Math.min(
-        Math.floor(scrollFromContent / itemTransitionHeight),
-        allMenuItems.length - 1
-      );
-      
-      setFocusedItemIndex(Math.max(0, newFocusIndex));
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [allMenuItems.length]);
-
-  const handleItemClick = (item) => {
+  const handleCardClick = (item) => {
     setSelectedItem(item);
-    setDialogVisible(true);
   };
 
-  const closeDialog = () => {
-    setDialogVisible(false);
+  const closeModal = () => {
     setSelectedItem(null);
   };
 
-  return (
-    <div className="menu-showcase">
-      {/* Parallax Background Elements */}
-      <div className="parallax-bg">
-        <div 
-          className="floating-element element-1"
-          style={{ transform: `translateY(${scrollY * 0.3}px) rotate(${scrollY * 0.1}deg)` }}
-        >
-          🌮
-        </div>
-        <div 
-          className="floating-element element-2"
-          style={{ transform: `translateY(${scrollY * 0.5}px) rotate(${-scrollY * 0.15}deg)` }}
-        >
-          🔥
-        </div>
-        <div 
-          className="floating-element element-3"
-          style={{ transform: `translateY(${scrollY * 0.2}px) rotate(${scrollY * 0.05}deg)` }}
-        >
-          🌶️
-        </div>
-        <div 
-          className="floating-element element-4"
-          style={{ transform: `translateY(${scrollY * 0.4}px) rotate(${-scrollY * 0.1}deg)` }}
-        >
-          🧀
-        </div>
-        <div 
-          className="floating-element element-5"
-          style={{ transform: `translateY(${scrollY * 0.6}px) rotate(${scrollY * 0.08}deg)` }}
-        >
-          🥄
-        </div>
-        <div 
-          className="floating-element element-6"
-          style={{ transform: `translateY(${scrollY * 0.25}px) rotate(${-scrollY * 0.12}deg)` }}
-        >
-          🌮
+  if (isLoading) {
+    return (
+      <div className="loading-screen">
+        <div className="loading-content">
+          <img src="/images/Birria_Boss_favicon_white.PNG" alt="Birria Boss" className="loading-logo" />
+          <div className="loading-text">LOADING DELICIOUSNESS...</div>
+          <div className="loading-bar">
+            <div className="loading-progress"></div>
+          </div>
         </div>
       </div>
-      {/* Header */}
-      <div className="menu-header">
-        <div 
-          className="header-content"
-          style={{ transform: `translateY(${scrollY * 0.2}px)` }}
-        >
-          <img 
-            src="/images/Birria_Boss_favicon_white.PNG" 
-            alt="Birria Boss Logo" 
-            className="header-logo"
-            style={{ transform: `translateY(${scrollY * 0.1}px) scale(${1 + scrollY * 0.0005})` }}
-          />
-          <h1 style={{ transform: `translateY(${scrollY * 0.15}px)` }}>Our Menu</h1>
-          <p style={{ transform: `translateY(${scrollY * 0.25}px)` }}>Discover our authentic Mexican birria dishes, made with love and tradition. Each item is carefully prepared using our secret family recipes.</p>
-        </div>
-        <div 
-          className="header-pattern"
-          style={{ transform: `translateY(${scrollY * 0.5}px)` }}
-        ></div>
+    );
+  }
+
+  return (
+    <div className="birria-menu-container">
+      {/* Animated Background Elements */}
+      <div className="background-elements">
+        <div className="floating-taco taco-1">🌮</div>
+        <div className="floating-taco taco-2">🌶️</div>
+        <div className="floating-taco taco-3">🔥</div>
+        <div className="pattern-overlay"></div>
       </div>
 
-      {/* Menu Categories - Now organized for scroll focus */}
-      <div className="menu-container">
-        {/* Focused Item Display */}
-        <div className="focused-item-section">
-          {allMenuItems.map((item, globalIndex) => (
+      {/* Header */}
+      <header className="menu-header">
+        <div className="header-content">
+          <img src="/images/Birria_Boss_favicon_white.PNG" alt="Birria Boss" className="header-logo" />
+          <h1 className="menu-title">OUR MENU</h1>
+          <p className="menu-subtitle">CHRISTCHURCH'S VIRAL FOOD DESTINATION</p>
+        </div>
+      </header>
+
+      {/* Menu Grid */}
+      <div className="menu-grid-container">
+        <div className="menu-grid">
+          {menuItems.map((item, index) => (
             <div
-              key={globalIndex}
-              className={`focus-menu-item ${globalIndex === focusedItemIndex ? 'focused' : ''}`}
-              style={{
-                opacity: globalIndex === focusedItemIndex ? 1 : 0,
-                transform: `translate(-50%, -50%) scale(${globalIndex === focusedItemIndex ? 1 : 0.9})`,
-                zIndex: globalIndex === focusedItemIndex ? 10 : 1
-              }}
-              onClick={() => handleItemClick(item)}
+              key={item.id}
+              className={`menu-card ${hoveredCard === item.id ? 'hovered' : ''}`}
+              onClick={() => handleCardClick(item)}
+              onMouseEnter={() => setHoveredCard(item.id)}
+              onMouseLeave={() => setHoveredCard(null)}
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="focus-item-content">
-                <div className="focus-item-left">
-                  <div className="category-badge">{item.category}</div>
-                  <h2 className="focus-item-title">{item.name}</h2>
-                  <p className="focus-item-description">{item.description}</p>
-                  <div className="focus-item-price">${item.price.toFixed(2)}</div>
-                  {item.tag && <div className="focus-tag">{item.tag}</div>}
-                  <button 
-                    className="focus-order-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      window.open('https://www.ubereats.com/nz/store/birria-boss/4xeB2_1fR0WuKM3mFMMbWw', '_blank');
-                    }}
-                  >
-                    Order Now
-                  </button>
-                </div>
-                <div className="focus-item-right">
-                  <div className="focus-image-container">
-                    <img 
-                      src={item.image} 
-                      alt={item.name} 
-                      className="focus-item-image"
-                      style={{ 
-                        transform: `scale(${globalIndex === focusedItemIndex ? 1.1 : 1}) rotate(${scrollY * 0.01}deg)`,
-                        filter: globalIndex === focusedItemIndex ? 'brightness(1.1) contrast(1.1)' : 'brightness(0.8)'
-                      }}
-                    />
-                    <div className="focus-image-overlay"></div>
-                  </div>
+              <div className="card-image-container">
+                <img src={item.image} alt={item.name} className="card-image" />
+                {item.tag && <div className="card-tag">{item.tag}</div>}
+                <div className="card-overlay"></div>
+              </div>
+              <div className="card-content">
+                <h3 className="card-title">{item.name}</h3>
+                <p className="card-description">{item.description}</p>
+                <div className="card-footer">
+                  <span className="card-price">${item.price.toFixed(2)}</span>
+                  <button className="order-btn">ORDER NOW</button>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-
-        {/* Scroll indicators */}
-        <div className="scroll-indicators">
-          {allMenuItems.map((_, index) => (
-            <div
-              key={index}
-              className={`scroll-dot ${index === focusedItemIndex ? 'active' : ''}`}
-              onClick={() => {
-                const targetScroll = 600 + (index * 400); // Match the new itemTransitionHeight
-                window.scrollTo({ top: targetScroll, behavior: 'smooth' });
-              }}
-            ></div>
           ))}
         </div>
       </div>
 
       {/* Call to Action */}
       <div className="cta-section">
-        <h2>Ready to Order?</h2>
-        <p>Get your birria fix delivered straight to your door!</p>
+        <h2>READY TO BOSS UP YOUR BITE?</h2>
+        <p>Order now on Uber Eats for delivery straight to your door!</p>
         <button 
+          className="main-order-btn"
           onClick={() => window.open('https://www.ubereats.com/nz/store/birria-boss/4xeB2_1fR0WuKM3mFMMbWw', '_blank')}
-          className="order-button"
         >
-          Order on Uber Eats
+          ORDER ON UBER EATS
         </button>
       </div>
 
-      {/* Item Detail Modal */}
-      {dialogVisible && selectedItem && (
-        <div className="modal-overlay" onClick={closeDialog}>
+      {/* Modal */}
+      {selectedItem && (
+        <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-button" onClick={closeDialog}>×</button>
-            <div className="modal-body">
-              <div className="modal-image-container">
-                <img 
-                  src={selectedItem.image} 
-                  alt={selectedItem.name} 
-                  className="modal-image"
-                />
-                {selectedItem.tag && <div className="modal-tag">{selectedItem.tag}</div>}
-              </div>
-              <div className="modal-details">
-                <h2 className="modal-title">{selectedItem.name}</h2>
-                <p className="modal-price">${selectedItem.price.toFixed(2)}</p>
-                <p className="modal-description">{selectedItem.description}</p>
-                <button 
-                  onClick={() => window.open('https://www.ubereats.com/nz/store/birria-boss/4xeB2_1fR0WuKM3mFMMbWw', '_blank')}
-                  className="order-button"
-                >
-                  Order Now
-                </button>
-              </div>
+            <button className="close-modal" onClick={closeModal}>×</button>
+            <div className="modal-image-section">
+              <img src={selectedItem.image} alt={selectedItem.name} className="modal-image" />
+              {selectedItem.tag && <div className="modal-tag">{selectedItem.tag}</div>}
+            </div>
+            <div className="modal-info">
+              <h2 className="modal-title">{selectedItem.name}</h2>
+              <p className="modal-description">{selectedItem.description}</p>
+              <div className="modal-price">${selectedItem.price.toFixed(2)}</div>
+              <button 
+                className="modal-order-btn"
+                onClick={() => window.open('https://www.ubereats.com/nz/store/birria-boss/4xeB2_1fR0WuKM3mFMMbWw', '_blank')}
+              >
+                ORDER THIS ITEM
+              </button>
             </div>
           </div>
         </div>
       )}
 
       <style>{`
-        .menu-showcase {
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        .birria-menu-container {
           min-height: 100vh;
           background-color: #DB0B00;
           font-family: 'Open Sans', Arial, sans-serif;
@@ -319,503 +196,487 @@ const MenuPage = () => {
           overflow-x: hidden;
         }
 
-        /* Parallax Background */
-        .parallax-bg {
+        /* Loading Screen */
+        .loading-screen {
           position: fixed;
           top: 0;
           left: 0;
-          width: 100%;
-          height: 100%;
-          pointer-events: none;
-          z-index: 1;
-        }
-
-        .floating-element {
-          position: absolute;
-          font-size: 3rem;
-          opacity: 0.3;
-          pointer-events: none;
-          filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
-          animation: float 6s ease-in-out infinite;
-        }
-
-        .element-1 {
-          top: 20%;
-          left: 10%;
-          animation-delay: 0s;
-        }
-
-        .element-2 {
-          top: 40%;
-          right: 15%;
-          animation-delay: 1s;
-        }
-
-        .element-3 {
-          top: 60%;
-          left: 20%;
-          animation-delay: 2s;
-        }
-
-        .element-4 {
-          top: 80%;
-          right: 25%;
-          animation-delay: 3s;
-        }
-
-        .element-5 {
-          top: 30%;
-          left: 60%;
-          animation-delay: 4s;
-        }
-
-        .element-6 {
-          top: 70%;
-          right: 40%;
-          animation-delay: 5s;
-        }
-
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(5deg); }
-        }
-
-        .menu-header {
-          background: linear-gradient(135deg, #DB0B00 0%, #B30A00 100%);
-          color: white;
-          padding: 4rem 2rem;
-          text-align: center;
-          position: relative;
-          overflow: hidden;
-          z-index: 2;
-          min-height: 60vh;
+          right: 0;
+          bottom: 0;
+          background: #DB0B00;
           display: flex;
           align-items: center;
           justify-content: center;
+          z-index: 9999;
         }
 
-        .menu-header::before {
-          content: '';
+        .loading-content {
+          text-align: center;
+        }
+
+        .loading-logo {
+          width: 120px;
+          height: 120px;
+          animation: pulse 2s ease-in-out infinite;
+          margin-bottom: 2rem;
+        }
+
+        .loading-text {
+          font-family: 'Bukhari Script', cursive;
+          font-size: 2rem;
+          color: #F0F2E4;
+          margin-bottom: 2rem;
+          letter-spacing: 2px;
+        }
+
+        .loading-bar {
+          width: 300px;
+          height: 8px;
+          background: rgba(240, 242, 228, 0.2);
+          border-radius: 4px;
+          overflow: hidden;
+          margin: 0 auto;
+        }
+
+        .loading-progress {
+          height: 100%;
+          background: linear-gradient(90deg, #FFB4E1, #FFD9F0);
+          width: 0;
+          animation: loadProgress 1.5s ease-in-out forwards;
+        }
+
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        @keyframes loadProgress {
+          0% { width: 0; }
+          100% { width: 100%; }
+        }
+
+        /* Background Elements */
+        .background-elements {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        .floating-taco {
+          position: absolute;
+          font-size: 4rem;
+          opacity: 0.1;
+          animation: float 20s ease-in-out infinite;
+        }
+
+        .taco-1 {
+          top: 20%;
+          left: 10%;
+          animation-duration: 25s;
+        }
+
+        .taco-2 {
+          top: 60%;
+          right: 15%;
+          animation-duration: 30s;
+          animation-delay: 5s;
+        }
+
+        .taco-3 {
+          bottom: 20%;
+          left: 50%;
+          animation-duration: 22s;
+          animation-delay: 10s;
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          25% { transform: translateY(-30px) rotate(10deg); }
+          50% { transform: translateY(0) rotate(-5deg); }
+          75% { transform: translateY(30px) rotate(5deg); }
+        }
+
+        .pattern-overlay {
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="menu-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="6" fill="none" stroke="white" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23menu-pattern)"/></svg>') repeat;
-          z-index: 1;
-          animation: patternMove 20s linear infinite;
+          background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="taco-pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="12" fill="none" stroke="white" stroke-width="1" opacity="0.05"/><circle cx="20" cy="20" r="5" fill="white" opacity="0.03"/></pattern></defs><rect width="100" height="100" fill="url(%23taco-pattern)"/></svg>') repeat;
+          opacity: 0.5;
         }
 
-        .header-pattern {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: radial-gradient(circle at 30% 70%, rgba(255, 180, 225, 0.2) 0%, transparent 50%),
-                      radial-gradient(circle at 70% 30%, rgba(255, 217, 240, 0.2) 0%, transparent 50%);
-          z-index: 1;
-        }
-
-        @keyframes patternMove {
-          0% { transform: translateX(0px) translateY(0px); }
-          100% { transform: translateX(100px) translateY(100px); }
+        /* Header */
+        .menu-header {
+          background: linear-gradient(180deg, #DB0B00 0%, #B30A00 100%);
+          padding: 4rem 2rem;
+          text-align: center;
+          position: relative;
+          z-index: 2;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .header-content {
-          position: relative;
-          z-index: 2;
           max-width: 800px;
           margin: 0 auto;
         }
 
         .header-logo {
-          height: 80px;
-          margin-bottom: 1rem;
-        }
-
-        .menu-header h1 {
-          font-family: 'Bukhari Script', cursive;
-          font-size: clamp(2.5rem, 5vw, 4rem);
-          margin-bottom: 1rem;
-          text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .menu-header p {
-          font-size: clamp(1rem, 2.5vw, 1.25rem);
-          line-height: 1.6;
-          font-weight: 400;
-        }
-
-        .menu-container {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 3rem 1rem;
-          position: relative;
-          z-index: 2;
-          background: linear-gradient(180deg, transparent 0%, rgba(219, 11, 0, 0.95) 10%, rgba(219, 11, 0, 0.95) 90%, transparent 100%);
-          min-height: 300vh; /* Reduced height for smoother scrolling */
-        }
-
-        /* Focused Item Styles */
-        .focused-item-section {
-          position: relative;
-          height: auto;
-          overflow: visible;
-        }
-
-        .focus-menu-item {
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 100%;
-          max-width: 1200px;
-          height: auto;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-          cursor: pointer;
-          pointer-events: none;
-        }
-
-        .focus-menu-item.focused {
-          opacity: 1 !important;
-          transform: translate(-50%, -50%) scale(1) !important;
-          pointer-events: all;
-          z-index: 10;
-        }
-
-        .focus-item-content {
-          display: grid;
-          grid-template-columns: 1fr 1.2fr;
-          gap: 4rem;
-          align-items: center;
-          width: 100%;
-          max-width: 1100px;
-          padding: 2rem;
-        }
-
-        .focus-item-left {
-          color: white;
-          position: relative;
-          z-index: 5;
-        }
-
-        .category-badge {
-          background: #FFB4E1;
-          color: #DB0B00;
-          padding: 8px 16px;
-          border-radius: 20px;
-          font-size: 0.9rem;
-          font-weight: 700;
-          display: inline-block;
-          margin-bottom: 1rem;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-        }
-
-        .focus-item-title {
-          font-family: 'Bukhari Script', cursive;
-          font-size: clamp(2.5rem, 5vw, 4rem);
-          color: white;
-          margin-bottom: 1.5rem;
-          text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-          line-height: 1.2;
-        }
-
-        .focus-item-description {
-          font-size: clamp(1rem, 2vw, 1.3rem);
-          line-height: 1.6;
+          width: 100px;
+          height: 100px;
           margin-bottom: 2rem;
-          color: rgba(255, 255, 255, 0.9);
+          filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+          animation: logoFloat 3s ease-in-out infinite;
         }
 
-        .focus-item-price {
-          font-size: clamp(2rem, 4vw, 3rem);
-          font-weight: 900;
-          color: #FFD9F0;
-          margin-bottom: 1.5rem;
-          text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        @keyframes logoFloat {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
         }
 
-        .focus-tag {
-          background: linear-gradient(45deg, #FFB4E1, #FFD9F0);
-          color: #DB0B00;
-          padding: 12px 20px;
-          border-radius: 25px;
-          font-size: 1rem;
-          font-weight: 700;
-          display: inline-block;
-          margin-bottom: 2rem;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          box-shadow: 0 4px 15px rgba(255, 180, 225, 0.4);
+        .menu-title {
+          font-family: 'Bukhari Script', cursive;
+          font-size: clamp(3rem, 8vw, 5rem);
+          color: #F0F2E4;
+          margin-bottom: 1rem;
+          text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+          letter-spacing: 3px;
         }
 
-        .focus-order-btn {
-          background: linear-gradient(45deg, #FFB4E1, #FFD9F0);
-          color: #DB0B00;
-          border: none;
-          padding: 18px 35px;
+        .menu-subtitle {
           font-size: 1.2rem;
-          font-weight: 700;
-          border-radius: 50px;
-          cursor: pointer;
-          transition: all 0.3s ease;
+          color: #FFD9F0;
+          font-weight: 600;
+          letter-spacing: 2px;
           text-transform: uppercase;
-          letter-spacing: 1px;
-          box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-          margin-top: 1rem;
         }
 
-        .focus-order-btn:hover {
-          transform: translateY(-3px) scale(1.05);
-          box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-        }
-
-        .focus-order-btn:active {
-          transform: translateY(-1px) scale(1.02);
-        }
-
-        .focus-item-right {
+        /* Menu Grid */
+        .menu-grid-container {
+          max-width: 1400px;
+          margin: -50px auto 0;
+          padding: 0 2rem 4rem;
           position: relative;
+          z-index: 3;
         }
 
-        .focus-image-container {
-          position: relative;
-          height: 500px;
+        .menu-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+          gap: 2.5rem;
+          padding-top: 2rem;
+        }
+
+        .menu-card {
+          background: #F0F2E4;
           border-radius: 20px;
           overflow: hidden;
-          box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+          cursor: pointer;
+          transition: all 0.4s ease;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+          position: relative;
+          animation: slideUp 0.6s ease-out forwards;
+          opacity: 0;
+          transform: translateY(30px);
         }
 
-        .focus-item-image {
+        @keyframes slideUp {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .menu-card:hover {
+          transform: translateY(-10px) scale(1.02);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-image-container {
+          position: relative;
+          height: 250px;
+          overflow: hidden;
+          background: linear-gradient(45deg, #FFB4E1, #FFD9F0);
+        }
+
+        .card-image {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: all 0.6s ease;
+          transition: transform 0.6s ease;
         }
 
-        .focus-image-overlay {
+        .menu-card:hover .card-image {
+          transform: scale(1.1) rotate(2deg);
+        }
+
+        .card-overlay {
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(45deg, rgba(255, 180, 225, 0.2), rgba(255, 217, 240, 0.2));
-          opacity: 0.7;
+          background: linear-gradient(to bottom, transparent 0%, rgba(219, 11, 0, 0.2) 100%);
+          opacity: 0;
+          transition: opacity 0.4s ease;
         }
 
-        /* Scroll Indicators */
-        .scroll-indicators {
-          position: fixed;
-          right: 30px;
-          top: 50%;
-          transform: translateY(-50%);
-          z-index: 100;
+        .menu-card:hover .card-overlay {
+          opacity: 1;
+        }
+
+        .card-tag {
+          position: absolute;
+          top: 15px;
+          right: 15px;
+          background: #EDBE4C;
+          color: #DB0B00;
+          padding: 8px 16px;
+          border-radius: 25px;
+          font-size: 0.8rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+          animation: tagPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes tagPulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+        }
+
+        .card-content {
+          padding: 2rem;
+        }
+
+        .card-title {
+          font-family: 'Bukhari Script', cursive;
+          font-size: 1.8rem;
+          color: #DB0B00;
+          margin-bottom: 1rem;
+          line-height: 1.2;
+        }
+
+        .card-description {
+          color: #666;
+          font-size: 0.95rem;
+          line-height: 1.6;
+          margin-bottom: 1.5rem;
+          height: 3.6em;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+        }
+
+        .card-footer {
           display: flex;
-          flex-direction: column;
-          gap: 15px;
+          justify-content: space-between;
+          align-items: center;
         }
 
-        .scroll-dot {
-          width: 12px;
-          height: 12px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.5);
+        .card-price {
+          font-size: 1.8rem;
+          font-weight: 800;
+          color: #DB0B00;
+          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-btn {
+          background: linear-gradient(45deg, #DB0B00, #FF1744);
+          color: #F0F2E4;
+          border: none;
+          padding: 12px 24px;
+          border-radius: 25px;
+          font-weight: 700;
+          font-size: 0.9rem;
           cursor: pointer;
           transition: all 0.3s ease;
-          border: 2px solid transparent;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          box-shadow: 0 5px 15px rgba(219, 11, 0, 0.3);
         }
 
-        .scroll-dot::before {
-          content: '';
-          width: 12px;
-          height: 12px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.5);
-          transition: all 0.3s ease;
+        .order-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(219, 11, 0, 0.4);
+          background: linear-gradient(45deg, #FF1744, #DB0B00);
         }
 
-        .scroll-dot.active::before {
-          background: #FFB4E1;
-          transform: scale(1.5);
-          box-shadow: 0 0 15px rgba(255, 180, 225, 0.6);
-        }
-
-        .scroll-dot:hover::before {
-          background: rgba(255, 255, 255, 0.8);
-          transform: scale(1.2);
-        }
-
-        .category-section {
-          margin-bottom: 4rem;
-        }
-
-        .category-header {
-          text-align: center;
-          margin-bottom: 2rem;
-          padding: 2rem;
-          background: linear-gradient(45deg, #FFD9F0, #FFB4E1);
-          border-radius: 15px;
-          box-shadow: 0 4px 15px rgba(219, 11, 0, 0.1);
-        }
-
-        .category-title {
-          font-family: 'Bukhari Script', cursive;
-          font-size: clamp(1.8rem, 4vw, 2.5rem);
-          color: #DB0B00;
-          margin-bottom: 0.5rem;
-          text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        }
-
-        .category-description {
-          font-size: clamp(0.9rem, 2vw, 1.1rem);
-          color: #666;
-          font-weight: 500;
-          line-height: 1.5;
-        }
-
+        /* CTA Section */
         .cta-section {
-          background: linear-gradient(45deg, #DB0B00, #FFB4E1);
-          color: white;
+          background: linear-gradient(135deg, #FFB4E1 0%, #FFD9F0 100%);
+          padding: 5rem 2rem;
           text-align: center;
-          padding: 3rem 2rem;
-          margin: 2rem 0;
+          margin-top: 4rem;
           position: relative;
-          z-index: 2;
           overflow: hidden;
         }
 
         .cta-section::before {
           content: '';
           position: absolute;
-          top: -50%;
-          left: -50%;
-          right: -50%;
-          bottom: -50%;
-          background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><circle cx="30" cy="30" r="20" fill="none" stroke="white" stroke-width="1" opacity="0.1"/><circle cx="30" cy="30" r="10" fill="white" opacity="0.05"/></svg>') repeat;
-          animation: rotatePattern 30s linear infinite;
-          z-index: -1;
-        }
-
-        @keyframes rotatePattern {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
+          top: -50px;
+          left: 0;
+          right: 0;
+          height: 100px;
+          background: #DB0B00;
+          transform: skewY(-3deg);
         }
 
         .cta-section h2 {
           font-family: 'Bukhari Script', cursive;
-          font-size: 2.5rem;
+          font-size: 3rem;
+          color: #DB0B00;
           margin-bottom: 1rem;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .cta-section p {
           font-size: 1.2rem;
+          color: #666;
           margin-bottom: 2rem;
         }
 
-        .order-button {
-          background: #FFB4E1;
-          color: #DB0B00;
+        .main-order-btn {
+          background: #DB0B00;
+          color: #F0F2E4;
           border: none;
-          padding: 15px 30px;
+          padding: 18px 40px;
+          border-radius: 50px;
           font-size: 1.1rem;
           font-weight: 700;
-          border-radius: 50px;
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: all 0.4s ease;
           text-transform: uppercase;
-          letter-spacing: 1px;
-          box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+          letter-spacing: 2px;
+          box-shadow: 0 10px 30px rgba(219, 11, 0, 0.4);
+          position: relative;
+          overflow: hidden;
         }
 
-        .order-button:hover {
-          background: #FFD9F0;
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        .main-order-btn::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+          transition: left 0.5s ease;
         }
 
-        /* Modal Styles */
+        .main-order-btn:hover::before {
+          left: 100%;
+        }
+
+        .main-order-btn:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 15px 40px rgba(219, 11, 0, 0.5);
+        }
+
+        /* Modal */
         .modal-overlay {
           position: fixed;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(0,0,0,0.8);
+          background: rgba(0, 0, 0, 0.85);
           display: flex;
           align-items: center;
           justify-content: center;
           z-index: 1000;
           padding: 2rem;
+          animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
 
         .modal-content {
-          background: white;
-          border-radius: 20px;
+          background: #F0F2E4;
+          border-radius: 30px;
           max-width: 800px;
           width: 100%;
-          max-height: 90vh;
-          overflow-y: auto;
+          overflow: hidden;
           position: relative;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+          animation: slideIn 0.4s ease;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
         }
 
-        .close-button {
+        @keyframes slideIn {
+          from { 
+            transform: translateY(50px) scale(0.9);
+            opacity: 0;
+          }
+          to { 
+            transform: translateY(0) scale(1);
+            opacity: 1;
+          }
+        }
+
+        .close-modal {
           position: absolute;
-          top: 15px;
+          top: 20px;
           right: 20px;
           background: #DB0B00;
-          color: white;
+          color: #F0F2E4;
           border: none;
           width: 40px;
           height: 40px;
           border-radius: 50%;
           font-size: 1.5rem;
           cursor: pointer;
-          z-index: 1001;
+          transition: all 0.3s ease;
+          z-index: 10;
           display: flex;
           align-items: center;
           justify-content: center;
         }
 
-        .modal-body {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 0;
+        .close-modal:hover {
+          transform: rotate(90deg);
+          background: #FF1744;
         }
 
-        .modal-image-container {
+        .modal-image-section {
           position: relative;
           height: 400px;
+          background: linear-gradient(45deg, #FFB4E1, #FFD9F0);
         }
 
         .modal-image {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          border-radius: 20px 0 0 20px;
         }
 
         .modal-tag {
           position: absolute;
-          top: 15px;
-          left: 15px;
-          background: #FFB4E1;
+          top: 20px;
+          left: 20px;
+          background: #EDBE4C;
           color: #DB0B00;
-          padding: 8px 12px;
-          border-radius: 20px;
-          font-size: 0.8rem;
+          padding: 10px 20px;
+          border-radius: 25px;
+          font-size: 0.9rem;
           font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 1px;
         }
 
-        .modal-details {
-          padding: 2rem;
+        .modal-info {
+          padding: 3rem;
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -823,329 +684,134 @@ const MenuPage = () => {
 
         .modal-title {
           font-family: 'Bukhari Script', cursive;
-          font-size: 2rem;
+          font-size: 2.5rem;
           color: #DB0B00;
-          margin-bottom: 1rem;
-        }
-
-        .modal-price {
-          font-size: 1.8rem;
-          font-weight: 800;
-          color: white;
-          background: #DB0B00;
-          padding: 10px 15px;
-          border-radius: 10px;
-          display: inline-block;
           margin-bottom: 1.5rem;
-          width: fit-content;
+          line-height: 1.2;
         }
 
         .modal-description {
           color: #666;
+          font-size: 1.1rem;
           line-height: 1.6;
           margin-bottom: 2rem;
-          font-size: 1.1rem;
+        }
+
+        .modal-price {
+          font-size: 2.5rem;
+          font-weight: 800;
+          color: #DB0B00;
+          margin-bottom: 2rem;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-order-btn {
+          background: linear-gradient(45deg, #DB0B00, #FF1744);
+          color: #F0F2E4;
+          border: none;
+          padding: 15px 30px;
+          border-radius: 30px;
+          font-size: 1rem;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          box-shadow: 0 8px 25px rgba(219, 11, 0, 0.4);
+          width: 100%;
+        }
+
+        .modal-order-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 30px rgba(219, 11, 0, 0.5);
         }
 
         /* Mobile Responsive */
+        @media (max-width: 1024px) {
+          .menu-grid {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+          }
+        }
+
         @media (max-width: 768px) {
-          .modal-body {
-            grid-template-columns: 1fr;
-          }
-
-          .modal-image {
-            border-radius: 20px 20px 0 0;
-          }
-
-          .modal-image-container {
-            height: 250px;
-          }
-
-          .header-logo {
-            height: 60px;
-          }
-
-          /* Reduce parallax effects on mobile for better performance */
-          .floating-element {
-            font-size: 2rem;
-            opacity: 0.2;
-          }
-
           .menu-header {
-            min-height: 50vh;
-            padding: 2rem 1rem;
+            padding: 3rem 1.5rem;
           }
 
-          .menu-header h1 {
-            font-size: 2.5rem;
+          .menu-title {
+            font-size: 3rem;
           }
 
-          .menu-header p {
+          .menu-subtitle {
             font-size: 1rem;
           }
 
-          /* Mobile focused item layout */
-          .focus-item-content {
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-            text-align: center;
-            padding: 1rem;
-            max-width: 95vw;
-          }
-
-          .focus-menu-item {
-            position: fixed;
-            top: 55%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            padding: 0.5rem;
-          }
-
-          .focus-image-container {
-            height: 280px;
-            order: -1;
-            margin-bottom: 1rem;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-          }
-
-          .focus-item-image {
-            border-radius: 15px;
-          }
-
-          .focus-image-overlay {
-            border-radius: 15px;
-          }
-
-          .focus-item-title {
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
-            line-height: 1.1;
-          }
-
-          .focus-item-description {
-            font-size: 1rem;
-            margin-bottom: 1.5rem;
-            padding: 0 1rem;
-            line-height: 1.5;
-          }
-
-          .focus-item-price {
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
-          }
-
-          .category-badge {
-            font-size: 0.8rem;
-            padding: 6px 12px;
-            margin-bottom: 0.5rem;
-          }
-
-          .focus-tag {
-            font-size: 0.9rem;
-            padding: 8px 16px;
-            margin-bottom: 1rem;
-          }
-
-          .focus-order-btn {
-            padding: 16px 28px;
-            font-size: 1.1rem;
-            margin-top: 0.5rem;
-            box-shadow: 0 4px 20px rgba(255, 180, 225, 0.4);
-          }
-
-          .scroll-indicators {
-            right: 15px;
-            gap: 8px;
-            bottom: 10%;
-            top: auto;
-            transform: none;
-          }
-
-          .scroll-dot {
-            width: 8px;
-            height: 8px;
-          }
-
-          .scroll-dot.active {
-            transform: scale(1.8);
-          }
-
-          /* Adjust CTA section for mobile */
-          .cta-section {
-            padding: 2rem 1rem;
-            margin: 1rem 0;
-          }
-
-          .cta-section h2 {
-            font-size: 2rem;
-          }
-
-          .cta-section p {
-            font-size: 1rem;
-          }
-
-          /* Better mobile menu container */
-          .menu-container {
-            padding: 2rem 0;
-            min-height: 400vh;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .menu-container {
-            padding: 1rem 0;
-            min-height: 350vh;
-          }
-
-          .menu-header {
-            min-height: 45vh;
-            padding: 1.5rem 0.5rem;
-          }
-
-          .menu-header h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-          }
-
-          .menu-header p {
-            font-size: 0.9rem;
-            padding: 0 1rem;
-          }
-
-          .header-logo {
-            height: 50px;
-            margin-bottom: 0.5rem;
-          }
-
-          .focus-item-content {
-            padding: 0.5rem;
-            gap: 1rem;
-            max-width: 98vw;
-          }
-
-          .focus-menu-item {
-            top: 60%;
-            width: 100%;
-            padding: 0.25rem;
-          }
-
-          .focus-item-title {
-            font-size: 1.8rem;
-            margin-bottom: 0.8rem;
-          }
-
-          .focus-item-description {
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-            padding: 0 0.5rem;
-          }
-
-          .focus-item-price {
-            font-size: 2rem;
-            margin-bottom: 0.8rem;
-          }
-
-          .focus-order-btn {
-            padding: 14px 24px;
-            font-size: 1rem;
-          }
-
-          .focus-image-container {
-            height: 240px;
-            margin-bottom: 0.8rem;
-            border-radius: 12px;
-          }
-
-          .focus-item-image {
-            border-radius: 12px;
-          }
-
-          .focus-image-overlay {
-            border-radius: 12px;
-          }
-
-          .category-badge {
-            font-size: 0.75rem;
-            padding: 5px 10px;
-          }
-
-          .focus-tag {
-            font-size: 0.8rem;
-            padding: 6px 12px;
-            margin-bottom: 0.8rem;
-          }
-
-          .scroll-indicators {
-            right: 10px;
-            bottom: 8%;
-            gap: 6px;
-          }
-
-          .scroll-dot {
-            width: 6px;
-            height: 6px;
-            min-width: 44px; /* Touch-friendly tap area */
-            min-height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-
-          .scroll-dot::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: inherit;
-            border: inherit;
-            box-shadow: inherit;
-          }
-
-          .scroll-dot.active::before {
-            transform: scale(2);
-          }
-
-          /* Floating elements for mobile */
-          .floating-element {
-            font-size: 1.5rem;
-            opacity: 0.15;
-          }
-
-          /* Better CTA section */
-          .cta-section {
-            padding: 1.5rem 0.5rem;
-          }
-
-          .cta-section h2 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-          }
-
-          .cta-section p {
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-          }
-
-          .order-button {
-            padding: 12px 24px;
-            font-size: 1rem;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .menu-container {
-            padding: 2rem 0.5rem;
-          }
-
-          .category-header {
-            padding: 1.5rem;
-            margin: 0 0.5rem 2rem;
+          .menu-grid-container {
+            padding: 0 1rem 3rem;
           }
 
           .menu-grid {
-            padding: 0 0.5rem;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+          }
+
+          .card-content {
+            padding: 1.5rem;
+          }
+
+          .modal-content {
+            grid-template-columns: 1fr;
+            max-height: 90vh;
+            overflow-y: auto;
+          }
+
+          .modal-image-section {
+            height: 250px;
+          }
+
+          .modal-info {
+            padding: 2rem;
+          }
+
+          .modal-title {
+            font-size: 2rem;
+          }
+
+          .cta-section h2 {
+            font-size: 2rem;
+          }
+
+          .cta-section p {
+            font-size: 1rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .header-logo {
+            width: 80px;
+            height: 80px;
+          }
+
+          .menu-title {
+            font-size: 2.5rem;
+          }
+
+          .card-title {
+            font-size: 1.5rem;
+          }
+
+          .card-price {
+            font-size: 1.5rem;
+          }
+
+          .order-btn {
+            padding: 10px 20px;
+            font-size: 0.8rem;
+          }
+
+          .floating-taco {
+            font-size: 3rem;
           }
         }
       `}</style>
