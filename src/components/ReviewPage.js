@@ -1,7 +1,9 @@
 import React from 'react';
+import PageWrapper from './PageWrapper';
 
 function Reviews() {
     return (
+        <PageWrapper>
         <div style={{
             maxWidth: '1400px',
             margin: '0 auto',
@@ -107,6 +109,7 @@ function Reviews() {
                 title="Brria Boss Reviews"
             />
         </div>
+        </PageWrapper>
     );
 }
 

@@ -1,8 +1,10 @@
 import React from 'react';
 import { MessageSquare, Mail } from 'lucide-react';
+import PageWrapper from './PageWrapper';
 
 function Contact() {
     return (
+        <PageWrapper>
         <div style={{
             maxWidth: '1400px',
             margin: '0 auto',
@@ -187,6 +189,7 @@ function Contact() {
                 </div>
             </div>
         </div>
+        </PageWrapper>
     );
 }
 

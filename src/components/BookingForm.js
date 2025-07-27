@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PageWrapper from './PageWrapper';
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
@@ -184,6 +185,7 @@ const BookingForm = () => {
   };
 
   return (
+    <PageWrapper>
     <div style={customStyles.pageBackground}>
       <div style={customStyles.container}>
         {/* Add logo at the top */}
@@ -338,6 +340,7 @@ const BookingForm = () => {
         <p style={customStyles.caption}>We look forward to making your event special!</p>
       </div>
     </div>
+    </PageWrapper>
   );
 };
 

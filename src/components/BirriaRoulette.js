@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
+import PageWrapper from './PageWrapper';
 import { Wheel } from 'react-custom-roulette';
 import { Button } from 'primereact/button';
 import { Sidebar } from 'primereact/sidebar';
@@ -143,6 +144,7 @@ const BirriaRoulette = () => {
   }, [inventory, wonPrize]);
 
   return (
+    <PageWrapper>
     <div style={{ backgroundColor: colors.white, minHeight: "100vh", padding: "2rem", display: "flex", flexDirection: "column", alignItems: "center" }}>
       <Toast ref={toastRef} /> {/* Toast for notifications */}
 
@@ -207,6 +209,7 @@ const BirriaRoulette = () => {
         </ul>
       </Sidebar>
     </div>
+    </PageWrapper>
   );
 };
 
