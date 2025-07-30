@@ -28,6 +28,7 @@ const MainContent = () => {
 
       <Routes>
         <Route path="/" element={<ComingSoon/>} />
+        <Route path="/home" element={<BrriaBossHome/>} />
         <Route path="/booking" element={<BookingForm />} />
         <Route path="/rewards" element={<BirriaRoulette />} />
         <Route path="/menu" element={<MenuPage />} />
