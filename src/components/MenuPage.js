@@ -106,6 +106,16 @@ const MenuPage = () => {
       image: "/images/limeade.jpg",
       category: "Beverages",
     },
+    {
+      id: 8,
+      name: "Fresh Iced Cherry Limeade",
+      price: 10.0,
+      description:
+        "A refreshing blend of fresh lime juice and Chery over ice.",
+      image: "/images/CherryLimeade.jpg",
+      tag: "NEW",
+      category: "Beverages",
+    },
   ];
 
   const handleCardClick = (item) => setSelectedItem(item);
