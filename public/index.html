@@ -1,26 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birria Boss - Best tacos in Christchurch</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birria Boss - Best tacos in Christchurch</title>
 
-    <!-- SEO -->
-    <meta name="description" content="Authentic birria tacos, quesadillas & consomé in Christchurch. Taste the best birria in New Zealand.">
+  <!-- SEO -->
+  <meta name="description" content="Authentic birria tacos, quesadillas & consomé in Christchurch. Taste the best birria in New Zealand." />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="%PUBLIC_URL%/images/Birria_Boss_favicon_red.png">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="%PUBLIC_URL%/images/Birria_Boss_favicon_red.png" />
 
-    <!-- Google Fonts for Open Sans -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap">
-    
-    <!-- Bukhari Script Font from CDN -->
-    <link href="https://fonts.cdnfonts.com/css/bukhari-script" rel="stylesheet">
-    
-    <!-- Elfsight Widget Script -->
-    <script src="https://static.elfsight.com/platform/platform.js" async></script>
+  <!-- Google Fonts for Open Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" />
+
+  <!-- Bukhari Script Font from CDN -->
+  <link href="https://fonts.cdnfonts.com/css/bukhari-script" rel="stylesheet" />
+
+  <!-- Elfsight Widget Script -->
+  <script src="https://static.elfsight.com/platform/platform.js" async></script>
 </head>
 <body>
-    <div id="root"></div>
+  <div id="root"></div>
+
+  <!-- Vercel Web Analytics (HTML implementation; no package required) -->
+<!-- Vercel Web Analytics (load only in production / non-localhost) -->
+<script>
+    (function () {
+      var isLocal =
+        location.hostname === 'localhost' ||
+        location.hostname === '127.0.0.1' ||
+        // CRA dev-server sometimes uses this IPv6 alias
+        location.hostname === '[::1]';
+  
+      if (!isLocal) {
+        // bootstrap queue
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        // load script
+        var s = document.createElement('script');
+        s.defer = true;
+        s.src = '/_vercel/insights/script.js';
+        document.head.appendChild(s);
+      }
+    })();
+  </script>
+  
+
+  <!-- Speed Insights: enable in Vercel dashboard; script appears as /_vercel/speed-insights/script.js after deploy -->
+  <!-- No tag needed here unless you use the npm package. -->
 </body>
 </html>
