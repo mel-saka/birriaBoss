@@ -27,7 +27,7 @@ const MainContent = () => {
       {/* Conditionally render Header */}
 
       <Routes>
-        <Route path="/" element={<ComingSoon/>} />
+        <Route path="/" element={<BrriaBossHome/>} />
         <Route path="/home" element={<BrriaBossHome/>} />
         <Route path="/booking" element={<BookingForm />} />
         <Route path="/rewards" element={<BirriaRoulette />} />
