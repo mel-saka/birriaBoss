@@ -37,16 +37,24 @@ const BrriaBossHome = () => {
     console.log(`[BirriaBoss] Apple device detected (homepage): ${apple}`, { isiOS, isMac, isMacTouch, ua });
   }, []);
 
-  // Load Apple-only fallback fonts that resemble Bukhari
+  // Apple-only: register self-hosted Bukhari font
   useEffect(() => {
     if (!isApple) return;
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    // Load a stack of close matches; Shrikhand first (heaviest/roundest), then Leckerli One, then Pacifico.
-    link.href = 'https://fonts.googleapis.com/css2?family=Shrikhand&family=Leckerli+One&family=Pacifico&display=swap';
-    document.head.appendChild(link);
+    const style = document.createElement('style');
+    style.setAttribute('data-bukhari-local', '');
+    style.textContent = `
+      @font-face {
+        font-family: 'BukhariLocal';
+        src: url('/fonts/bukhari-script.woff2') format('woff2'),
+             url('/fonts/bukhari-script.woff') format('woff');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+    `;
+    document.head.appendChild(style);
     return () => {
-      document.head.removeChild(link);
+      document.head.removeChild(style);
     };
   }, [isApple]);
 
@@ -391,7 +399,7 @@ const BrriaBossHome = () => {
       <section className="final-cta">
         <div className="container">
           <h2>READY TO BOSS UP YOUR BITE?</h2>
-        <p>Order now and taste why we're Christchurch's viral food sensation!</p>
+          <p>Order now and taste why we're Christchurch's viral food sensation!</p>
           <button 
             className="big-order-btn"
             onClick={() => handleNavigation('https://www.ubereats.com/nz/store/birria-boss/4xeB2_1fR0WuKM3mFMMbWw', true)}
@@ -1370,14 +1378,14 @@ const BrriaBossHome = () => {
           }
         }
 
-        /* ---- Apple-only: swap Bukhari targets to close look-alikes ---- */
+        /* ---- Apple-only: use self-hosted Bukhari ---- */
         .apple-device .logo-text,
         .apple-device .main-title,
         .apple-device .section-title,
         .apple-device .bestseller-info h3,
         .apple-device .story-text h2,
         .apple-device .final-cta h2 {
-          font-family: 'Shrikhand', 'Leckerli One', 'Pacifico', 'Snell Roundhand', 'Brush Script MT', cursive !important;
+          font-family: 'BukhariLocal','Bukhari Script','Open Sans', Arial, sans-serif !important;
           font-weight: 400 !important;
           letter-spacing: 0.5px;
         }
