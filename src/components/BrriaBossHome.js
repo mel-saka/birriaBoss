@@ -110,13 +110,13 @@ const BrriaBossHome = () => {
   const bestSellers = [
     {
       name: "3 Birria Tacos",
-      price: "$24.00",
+      price: "$23.00",
       image: "/images/menu.jpg",
       description: "Our signature dish"
     },
     {
       name: "Birria Quesadilla",
-      price: "$26.00",
+      price: "$25.00",
       image: "/images/qass.jpg",
       description: "Customer favorite"
     },

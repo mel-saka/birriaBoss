@@ -51,7 +51,7 @@ const MenuPage = () => {
     {
       id: 1,
       name: "3 Birria Tacos",
-      price: 24.0,
+      price: 23.0,
       description:
         "3 delicious tacos, crisped on the grill with melted cheese and slow-cooked birria beef. Topped with fresh onions and cilantro. Served with consomme for dipping.",
       image: "/images/menu.jpg",
@@ -61,7 +61,7 @@ const MenuPage = () => {
     {
       id: 2,
       name: "Single Birria Taco",
-      price: 11.7,
+      price: 9.0,
       description:
         "Single birria beef taco grilled to perfection with cheese, onion & cilantro. Served with consomme.",
       image: "/images/taco.jpg",
@@ -70,7 +70,7 @@ const MenuPage = () => {
     {
       id: 3,
       name: "Birria Quesadilla",
-      price: 26.0,
+      price: 25.0,
       description:
         'Our delicious birria beef served in a 12" tortilla and grilled to crispy perfection with melted cheese.',
       image: "/images/qass.jpg",
