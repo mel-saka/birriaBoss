@@ -1,11 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Star, MessageSquare, Award, Heart, ExternalLink } from 'lucide-react';
 
 const Reviews = () => {
   const [hoveredStat, setHoveredStat] = useState(null);
   const [showThankYou, setShowThankYou] = useState(false);
+  const [isApple, setIsApple] = useState(false);
   const navigate = useNavigate();
+
+  // Apple detection (same as Home/Menu/Hours)
+  useEffect(() => {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    const isiOS = /iPad|iPhone|iPod/.test(ua);
+    const isMacTouch = /Macintosh/.test(ua) && navigator.maxTouchPoints > 0;
+    const isMac = /Macintosh/.test(ua) && !isMacTouch;
+    const apple = isiOS || isMac || isMacTouch;
+    setIsApple(apple);
+    console.log(`[BirriaBoss] Apple device detected (reviews): ${apple}`, { isiOS, isMac, isMacTouch, ua });
+  }, []);
+
+  // Apple-only: register self-hosted Bukhari font
+  useEffect(() => {
+    if (!isApple) return;
+    const style = document.createElement('style');
+    style.setAttribute('data-bukhari-local', '');
+    style.textContent = `
+      @font-face {
+        font-family: 'BukhariLocal';
+        src: url('/fonts/bukhari-script.woff2') format('woff2'),
+             url('/fonts/bukhari-script.woff') format('woff');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+    `;
+    document.head.appendChild(style);
+    return () => document.head.removeChild(style);
+  }, [isApple]);
 
   const handleReviewClick = () => {
     setShowThankYou(true);
@@ -18,22 +49,12 @@ const Reviews = () => {
 
   // Update these with your actual Google review stats
   const reviewStats = [
-    { 
-      icon: <Star />, 
-      value: '4.6', // Update with actual rating
-      label: 'Average Rating',
-      color: '#FFD700'
-    },
-    { 
-      icon: <Award />, 
-      value: 'Top Rated', // Update with actual achievement
-      label: 'Birria in Christchurch',
-      color: '#EDBE4C'
-    }
+    { icon: <Star />, value: '4.6', label: 'Average Rating', color: '#FFD700' },
+    { icon: <Award />, value: 'Top Rated', label: 'Birria in Christchurch', color: '#EDBE4C' }
   ];
 
   return (
-    <div className="reviews-container">
+    <div className={`reviews-container ${isApple ? 'apple-device' : ''}`}>
       {/* Back to Home (top-right) - identical to MenuPage */}
       <button className="back-home-btn" onClick={() => navigate('/home')}>
         Back to Home
@@ -61,8 +82,6 @@ const Reviews = () => {
         <img src="/images/Birria_Boss_favicon_white.PNG" alt="Birria Boss" className="header-logo" />
         <h1 className="main-title">CUSTOMER REVIEWS</h1>
         <p className="subtitle">SEE WHAT OUR BIRRIA FAMILY IS SAYING</p>
-        
-        {/* Review CTA Button */}
         <button className="leave-review-btn" onClick={handleReviewClick}>
           <Star className="btn-icon" />
           LEAVE A GOOGLE REVIEW
@@ -73,7 +92,7 @@ const Reviews = () => {
       {/* Stats Section */}
       <div className="stats-section">
         {reviewStats.map((stat, index) => (
-          <div 
+          <div
             key={index}
             className={`stat-card ${hoveredStat === index ? 'hovered' : ''}`}
             onMouseEnter={() => setHoveredStat(index)}
@@ -95,7 +114,7 @@ const Reviews = () => {
           <MessageSquare className="title-icon" />
           Customer Reviews
         </h2>
-        
+
         <div className="widget-container">
           <iframe
             className="review-iframe"
@@ -129,9 +148,11 @@ const Reviews = () => {
           <button className="cta-btn primary" onClick={handleReviewClick}>
             <Star /> Write a Review
           </button>
-          <button 
+          <button
             className="cta-btn secondary"
-            onClick={() => window.open('https://www.ubereats.com/nz/store/birria-boss/4xeB2_1fR0WuKM3mFMMbWw', '_blank')}
+            onClick={() =>
+              window.open('https://www.ubereats.com/nz/store/birria-boss/4xeB2_1fR0WuKM3mFMMbWw', '_blank')
+            }
           >
             Order Again
           </button>
@@ -139,6 +160,16 @@ const Reviews = () => {
       </div>
 
       <style>{`
+        /* Non-Apple: self-hosted Bukhari (same filenames used across the app) */
+        @font-face {
+          font-family: 'Bukhari Script';
+          src: url('/fonts/bukhari-script.woff2') format('woff2'),
+               url('/fonts/bukhari-script.woff') format('woff');
+          font-weight: 400;
+          font-style: normal;
+          font-display: swap;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         .reviews-container {
@@ -175,16 +206,9 @@ const Reviews = () => {
 
         /* Thank You Popup */
         .thank-you-popup {
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          background: white;
-          padding: 2rem 3rem;
-          border-radius: 20px;
-          box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-          z-index: 1000;
-          text-align: center;
+          position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+          background: white; padding: 2rem 3rem; border-radius: 20px;
+          box-shadow: 0 20px 60px rgba(0,0,0,0.3); z-index: 1000; text-align: center;
           animation: popIn 0.5s ease;
         }
         @keyframes popIn { 0% { transform: translate(-50%, -50%) scale(0); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
@@ -207,10 +231,7 @@ const Reviews = () => {
 
         /* Header */
         .reviews-header {
-          text-align: center;
-          padding: 4rem 2rem 3rem;
-          position: relative;
-          z-index: 2;
+          text-align: center; padding: 4rem 2rem 3rem; position: relative; z-index: 2;
           background: linear-gradient(180deg, rgba(219,11,0,1) 0%, rgba(179,10,0,1) 100%);
         }
         .header-logo {
@@ -310,6 +331,17 @@ const Reviews = () => {
           .bottom-cta p { font-size: 1.1rem; }
           .back-home-btn { top: 12px; right: 12px; padding: 8px 14px; }
         }
+
+        /* ---- Apple-only: use self-hosted Bukhari (same selectors as this page) ---- */
+        .apple-device .main-title,
+        .apple-device .widget-section .section-title,
+        .apple-device .bottom-cta h2 {
+          font-family: 'BukhariLocal','Bukhari Script','Open Sans', Arial, sans-serif !important;
+          font-weight: 400 !important;
+          letter-spacing: 0.5px;
+          font-synthesis-weight: none;
+        }
+        /* ---- End Apple-only overrides ---- */
       `}</style>
     </div>
   );

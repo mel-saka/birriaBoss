@@ -10,7 +10,38 @@ const OpeningHours = () => {
   const [timeUntilChange, setTimeUntilChange] = useState('');
   const [hoveredDay, setHoveredDay] = useState(null);
   const [showUberAnimation, setShowUberAnimation] = useState(false);
+  const [isApple, setIsApple] = useState(false);
   const navigate = useNavigate();
+
+  // Apple detection (same as Home/Menu)
+  useEffect(() => {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    const isiOS = /iPad|iPhone|iPod/.test(ua);
+    const isMacTouch = /Macintosh/.test(ua) && navigator.maxTouchPoints > 0;
+    const isMac = /Macintosh/.test(ua) && !isMacTouch;
+    const apple = isiOS || isMac || isMacTouch;
+    setIsApple(apple);
+    console.log(`[BirriaBoss] Apple device detected (hours): ${apple}`, { isiOS, isMac, isMacTouch, ua });
+  }, []);
+
+  // Apple-only: register self-hosted Bukhari font
+  useEffect(() => {
+    if (!isApple) return;
+    const style = document.createElement('style');
+    style.setAttribute('data-bukhari-local', '');
+    style.textContent = `
+      @font-face {
+        font-family: 'BukhariLocal';
+        src: url('/fonts/bukhari-script.woff2') format('woff2'),
+             url('/fonts/bukhari-script.woff') format('woff');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+    `;
+    document.head.appendChild(style);
+    return () => document.head.removeChild(style);
+  }, [isApple]);
 
   // Displayed schedule (strings)
   const storeHours = {
@@ -98,7 +129,7 @@ const OpeningHours = () => {
   }, []);
 
   return (
-    <div className="hours-container">
+    <div className={`hours-container ${isApple ? 'apple-device' : ''}`}>
       {/* Background */}
       <div className="background-elements">
         <div className="floating-icon icon-1">⏰</div>
@@ -110,7 +141,6 @@ const OpeningHours = () => {
 
       {/* Header */}
       <header className="hours-header">
-        {/* Back to Home (smaller) */}
         <button className="back-home-btn" onClick={() => navigate('/home')}>
           Back to Home
         </button>
@@ -197,7 +227,7 @@ const OpeningHours = () => {
             <p className="city">Christchurch 8011</p>
           </div>
 
-        <div className="map-container">
+          <div className="map-container">
             <div className="map-embed">
               <iframe
                 title="Birria Boss Location"
@@ -233,6 +263,16 @@ const OpeningHours = () => {
       </div>
 
       <style>{`
+        /* Non-Apple: self-hosted Bukhari (match Home/Menu file names) */
+        @font-face {
+          font-family: 'Bukhari Script';
+          src: url('/fonts/bukhari-script.woff2') format('woff2'),
+               url('/fonts/bukhari-script.woff') format('woff');
+          font-weight: 400;
+          font-style: normal;
+          font-display: swap;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         .hours-container {
@@ -298,9 +338,18 @@ const OpeningHours = () => {
           background: linear-gradient(180deg, rgba(219,11,0,1) 0%, rgba(179,10,0,1) 100%);
         }
         .header-logo { width: 100px; height: 100px; margin-bottom: 2rem; animation: logoRotate 20s linear infinite; }
-        @keyframes logoRotate { 0% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.1); } 100% { transform: rotate(360deg) scale(1); }
+        @keyframes logoRotate {
+          0% { transform: rotate(0deg) scale(1); }
+          50% { transform: rotate(180deg) scale(1.1); }
+          100% { transform: rotate(360deg) scale(1); }
         }
-        .main-title { font-family: 'Bukhari Script', cursive; font-size: clamp(3rem, 8vw, 5rem); margin-bottom: 1rem; text-shadow: 3px 3px 6px rgba(0,0,0,0.3); letter-spacing: 3px; }
+        .main-title {
+          font-family: 'Bukhari Script', cursive;
+          font-size: clamp(3rem, 8vw, 5rem);
+          margin-bottom: 1rem;
+          text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+          letter-spacing: 3px;
+        }
         .subtitle { font-size: 1.2rem; color: #FFD9F0; font-weight: 600; letter-spacing: 1px; }
 
         /* Status Section */
@@ -330,7 +379,14 @@ const OpeningHours = () => {
 
         /* Schedule */
         .schedule-section { max-width: 1200px; margin: 0 auto; padding: 0 2rem 4rem; position: relative; z-index: 2; }
-        .section-title { font-family: 'Bukhari Script', cursive; font-size: 3rem; text-align: center; margin-bottom: 3rem; color: #F0F2E4; display: flex; align-items: center; justify-content: center; gap: 1rem; }
+        .section-title {
+          font-family: 'Bukhari Script', cursive;
+          font-size: 3rem;
+          text-align: center;
+          margin-bottom: 3rem;
+          color: #F0F2E4;
+          display: flex; align-items: center; justify-content: center; gap: 1rem;
+        }
         .title-icon { width: 40px; height: 40px; color: #FFD9F0; }
         .schedule-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
         .day-card { background: rgba(240,242,228,0.95); color: #333; border-radius: 20px; padding: 1.5rem; text-align: center; transition: all 0.3s ease; position: relative; cursor: pointer; border: 3px solid transparent; }
@@ -385,6 +441,18 @@ const OpeningHours = () => {
           .hours-info { font-size: 0.8rem; }
           .back-home-btn { top: 10px; right: 10px; padding: 6px 12px; font-size: 0.8rem; }
         }
+
+        /* ---- Apple-only: use self-hosted Bukhari (same as Home/Menu) ---- */
+        .apple-device .main-title,
+        .apple-device .section-title,
+        .apple-device .location-info h3,
+        .apple-device .cta-section h2 {
+          font-family: 'BukhariLocal','Bukhari Script','Open Sans', Arial, sans-serif !important;
+          font-weight: 400 !important;
+          letter-spacing: 0.5px;
+          font-synthesis-weight: none;
+        }
+        /* ---- End Apple-only overrides ---- */
       `}</style>
     </div>
   );
