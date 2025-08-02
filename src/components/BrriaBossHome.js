@@ -7,7 +7,7 @@ const BrriaBossHome = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [hoveredFeature, setHoveredFeature] = useState(null);
-  const [isApple, setIsApple] = useState(false); // <-- added
+  const [isApple, setIsApple] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,17 +26,29 @@ const BrriaBossHome = () => {
     };
   }, []);
 
-  // <-- added: detect Apple device and log to console
+  // Detect Apple device and log
   useEffect(() => {
     const ua = navigator.userAgent || navigator.vendor || window.opera;
     const isiOS = /iPad|iPhone|iPod/.test(ua);
-    const isMacTouch = /Macintosh/.test(ua) && navigator.maxTouchPoints > 0; // iPadOS 13+ reports Macintosh
+    const isMacTouch = /Macintosh/.test(ua) && navigator.maxTouchPoints > 0;
     const isMac = /Macintosh/.test(ua) && !isMacTouch;
     const apple = isiOS || isMac || isMacTouch;
     setIsApple(apple);
     console.log(`[BirriaBoss] Apple device detected (homepage): ${apple}`, { isiOS, isMac, isMacTouch, ua });
   }, []);
-  // <-- end added
+
+  // Load Apple-only fallback fonts that resemble Bukhari
+  useEffect(() => {
+    if (!isApple) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    // Load a stack of close matches; Shrikhand first (heaviest/roundest), then Leckerli One, then Pacifico.
+    link.href = 'https://fonts.googleapis.com/css2?family=Shrikhand&family=Leckerli+One&family=Pacifico&display=swap';
+    document.head.appendChild(link);
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, [isApple]);
 
   const handleNavigation = (path, external = false) => {
     if (external) {
@@ -379,7 +391,7 @@ const BrriaBossHome = () => {
       <section className="final-cta">
         <div className="container">
           <h2>READY TO BOSS UP YOUR BITE?</h2>
-          <p>Order now and taste why we're Christchurch's viral food sensation!</p>
+        <p>Order now and taste why we're Christchurch's viral food sensation!</p>
           <button 
             className="big-order-btn"
             onClick={() => handleNavigation('https://www.ubereats.com/nz/store/birria-boss/4xeB2_1fR0WuKM3mFMMbWw', true)}
@@ -575,7 +587,6 @@ const BrriaBossHome = () => {
           color: #F0F2E4;
           font-size: 1.5rem;
           cursor: pointer;
-          /* Ensure it sits above hero/overlays on small screens */
           z-index: 1100;
         }
 
@@ -1359,17 +1370,16 @@ const BrriaBossHome = () => {
           }
         }
 
-        /* ---- Added: Apple-only fallback font for Bukhari targets ---- */
+        /* ---- Apple-only: swap Bukhari targets to close look-alikes ---- */
         .apple-device .logo-text,
         .apple-device .main-title,
         .apple-device .section-title,
         .apple-device .bestseller-info h3,
         .apple-device .story-text h2,
         .apple-device .final-cta h2 {
-          font-family: 'Arial Black', 'Helvetica', sans-serif !important;
-          font-weight: 900 !important;
-          letter-spacing: 2px;
-          text-transform: none;
+          font-family: 'Shrikhand', 'Leckerli One', 'Pacifico', 'Snell Roundhand', 'Brush Script MT', cursive !important;
+          font-weight: 400 !important;
+          letter-spacing: 0.5px;
         }
         /* ---- End Apple-only overrides ---- */
       `}</style>
