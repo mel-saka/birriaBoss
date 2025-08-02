@@ -1,103 +1,82 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const MenuPage = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [hoveredCard, setHoveredCard] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   const menuItems = [
     {
       id: 1,
       name: "3 Birria Tacos",
-      price: 24.00,
-      description: "3 delicious tacos, crisped on the grill with melted cheese and slow-cooked birria beef. Topped with fresh onions and cilantro. Served with consomme for dipping.",
+      price: 24.0,
+      description:
+        "3 delicious tacos, crisped on the grill with melted cheese and slow-cooked birria beef. Topped with fresh onions and cilantro. Served with consomme for dipping.",
       image: "/images/menu.jpg",
-      tag: "CHEF'S CHOICE",
-      category: "Tacos"
+      tag: "CUSTOMER FAVORITE",
+      category: "Tacos",
     },
     {
       id: 2,
       name: "Single Birria Taco",
-      price: 11.70,
-      description: "Single birria beef taco grilled to perfection with cheese, onion & cilantro. Served with consomme.",
+      price: 11.7,
+      description:
+        "Single birria beef taco grilled to perfection with cheese, onion & cilantro. Served with consomme.",
       image: "/images/taco.jpg",
-      category: "Tacos"
+      category: "Tacos",
     },
     {
       id: 3,
       name: "Birria Quesadilla",
-      price: 26.00,
-      description: "Our delicious birria beef served in a 12\" tortilla and grilled to crispy perfection with melted cheese.",
+      price: 26.0,
+      description:
+        'Our delicious birria beef served in a 12" tortilla and grilled to crispy perfection with melted cheese.',
       image: "/images/qass.jpg",
-      tag: "CUSTOMER FAVORITE",
-      category: "Quesadillas"
+      category: "Quesadillas",
     },
     {
       id: 4,
       name: "Birria Ramen",
-      price: 19.00,
-      description: "Buldak ramen cooked in our mouthwatering birria consomme broth, topped with tender birria beef.",
+      price: 19.0,
+      description:
+        "Buldak ramen cooked in our mouthwatering birria consomme broth, topped with tender birria beef.",
       image: "/images/ramen.jpg",
-      tag: "MUST TRY!",
-      category: "Fusion"
+      tag: "CUSTOMER FAVORITE",
+      category: "Fusion",
     },
-    {
-      id: 5,
-      name: "Birria Pizza",
-      price: 40.00,
-      description: "Italian and Mexican fusion pizza filled with mozzarella, birria beef, and our special sauce.",
-      image: "/images/pizza.jpg",
-      tag: "NEW!",
-      category: "Fusion"
-    },
+    // Removed Birria Pizza
     {
       id: 6,
       name: "Consomme Cup",
-      price: 5.00,
-      description: "Our signature beef broth, slow-cooked for hours with Mexican spices and chiles.",
+      price: 5.0,
+      description:
+        "Our signature beef broth, slow-cooked for hours with Mexican spices and chiles.",
       image: "/images/taco.jpg",
       tag: "ESSENTIAL",
-      category: "Sides"
+      category: "Sides",
     },
     {
       id: 7,
       name: "Fresh Iced Mint Limeade",
-      price: 9.00,
-      description: "A refreshing blend of fresh lime juice and mint leaves over ice.",
+      price: 9.0,
+      description:
+        "A refreshing blend of fresh lime juice and mint leaves over ice.",
       image: "/images/limeade.jpg",
-      category: "Beverages"
-    }
+      category: "Beverages",
+    },
   ];
 
-  useEffect(() => {
-    // Simulate loading animation
-    setTimeout(() => setIsLoading(false), 1500);
-  }, []);
-
-  const handleCardClick = (item) => {
-    setSelectedItem(item);
-  };
-
-  const closeModal = () => {
-    setSelectedItem(null);
-  };
-
-  if (isLoading) {
-    return (
-      <div className="loading-screen">
-        <div className="loading-content">
-          <img src="/images/Birria_Boss_favicon_white.PNG" alt="Birria Boss" className="loading-logo" />
-          <div className="loading-text">LOADING DELICIOUSNESS...</div>
-          <div className="loading-bar">
-            <div className="loading-progress"></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const handleCardClick = (item) => setSelectedItem(item);
+  const closeModal = () => setSelectedItem(null);
 
   return (
     <div className="birria-menu-container">
+      {/* Back to Home (top-right) */}
+      <button className="back-home-btn" onClick={() => navigate("/home")}>
+        Back to Home
+      </button>
+
       {/* Animated Background Elements */}
       <div className="background-elements">
         <div className="floating-taco taco-1">🌮</div>
@@ -109,7 +88,11 @@ const MenuPage = () => {
       {/* Header */}
       <header className="menu-header">
         <div className="header-content">
-          <img src="/images/Birria_Boss_favicon_white.PNG" alt="Birria Boss" className="header-logo" />
+          <img
+            src="/images/Birria_Boss_favicon_white.PNG"
+            alt="Birria Boss"
+            className="header-logo"
+          />
           <h1 className="menu-title">OUR MENU</h1>
           <p className="menu-subtitle">CHRISTCHURCH'S VIRAL FOOD DESTINATION</p>
         </div>
@@ -121,7 +104,9 @@ const MenuPage = () => {
           {menuItems.map((item, index) => (
             <div
               key={item.id}
-              className={`menu-card ${hoveredCard === item.id ? 'hovered' : ''}`}
+              className={`menu-card ${
+                hoveredCard === item.id ? "hovered" : ""
+              }`}
               onClick={() => handleCardClick(item)}
               onMouseEnter={() => setHoveredCard(item.id)}
               onMouseLeave={() => setHoveredCard(null)}
@@ -137,7 +122,18 @@ const MenuPage = () => {
                 <p className="card-description">{item.description}</p>
                 <div className="card-footer">
                   <span className="card-price">${item.price.toFixed(2)}</span>
-                  <button className="order-btn">ORDER NOW</button>
+                  <button
+                    className="order-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.open(
+                        "https://www.ubereats.com/nz/store/birria-boss/4xeB2_1fR0WuKM3mFMMbWw",
+                        "_blank"
+                      );
+                    }}
+                  >
+                    ORDER NOW
+                  </button>
                 </div>
               </div>
             </div>
@@ -149,9 +145,14 @@ const MenuPage = () => {
       <div className="cta-section">
         <h2>READY TO BOSS UP YOUR BITE?</h2>
         <p>Order now on Uber Eats for delivery straight to your door!</p>
-        <button 
+        <button
           className="main-order-btn"
-          onClick={() => window.open('https://www.ubereats.com/nz/store/birria-boss/4xeB2_1fR0WuKM3mFMMbWw', '_blank')}
+          onClick={() =>
+            window.open(
+              "https://www.ubereats.com/nz/store/birria-boss/4xeB2_1fR0WuKM3mFMMbWw",
+              "_blank"
+            )
+          }
         >
           ORDER ON UBER EATS
         </button>
@@ -161,18 +162,33 @@ const MenuPage = () => {
       {selectedItem && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-modal" onClick={closeModal}>×</button>
+            <button className="close-modal" onClick={closeModal}>
+              ×
+            </button>
             <div className="modal-image-section">
-              <img src={selectedItem.image} alt={selectedItem.name} className="modal-image" />
-              {selectedItem.tag && <div className="modal-tag">{selectedItem.tag}</div>}
+              <img
+                src={selectedItem.image}
+                alt={selectedItem.name}
+                className="modal-image"
+              />
+              {selectedItem.tag && (
+                <div className="modal-tag">{selectedItem.tag}</div>
+              )}
             </div>
             <div className="modal-info">
               <h2 className="modal-title">{selectedItem.name}</h2>
               <p className="modal-description">{selectedItem.description}</p>
-              <div className="modal-price">${selectedItem.price.toFixed(2)}</div>
-              <button 
+              <div className="modal-price">
+                ${selectedItem.price.toFixed(2)}
+              </div>
+              <button
                 className="modal-order-btn"
-                onClick={() => window.open('https://www.ubereats.com/nz/store/birria-boss/4xeB2_1fR0WuKM3mFMMbWw', '_blank')}
+                onClick={() =>
+                  window.open(
+                    "https://www.ubereats.com/nz/store/birria-boss/4xeB2_1fR0WuKM3mFMMbWw",
+                    "_blank"
+                  )
+                }
               >
                 ORDER THIS ITEM
               </button>
@@ -196,63 +212,28 @@ const MenuPage = () => {
           overflow-x: hidden;
         }
 
-        /* Loading Screen */
-        .loading-screen {
+        /* Back Home Button */
+        .back-home-btn {
           position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: #DB0B00;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 9999;
+          top: 16px;
+          right: 20px;
+          z-index: 2000;
+          background: #F0F2E4;
+          color: #DB0B00;
+          border: 2px solid #F0F2E4;
+          padding: 10px 18px;
+          border-radius: 9999px;
+          font-weight: 800;
+          letter-spacing: 0.5px;
+          cursor: pointer;
+          transition: all 0.25s ease;
+          text-transform: uppercase;
         }
-
-        .loading-content {
-          text-align: center;
-        }
-
-        .loading-logo {
-          width: 120px;
-          height: 120px;
-          animation: pulse 2s ease-in-out infinite;
-          margin-bottom: 2rem;
-        }
-
-        .loading-text {
-          font-family: 'Bukhari Script', cursive;
-          font-size: 2rem;
-          color: #F0F2E4;
-          margin-bottom: 2rem;
-          letter-spacing: 2px;
-        }
-
-        .loading-bar {
-          width: 300px;
-          height: 8px;
-          background: rgba(240, 242, 228, 0.2);
-          border-radius: 4px;
-          overflow: hidden;
-          margin: 0 auto;
-        }
-
-        .loading-progress {
-          height: 100%;
-          background: linear-gradient(90deg, #FFB4E1, #FFD9F0);
-          width: 0;
-          animation: loadProgress 1.5s ease-in-out forwards;
-        }
-
-        @keyframes pulse {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.1); opacity: 0.8; }
-        }
-
-        @keyframes loadProgress {
-          0% { width: 0; }
-          100% { width: 100%; }
+        .back-home-btn:hover {
+          background: #FFD9F0;
+          border-color: #FFD9F0;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(219,11,0,0.25);
         }
 
         /* Background Elements */
@@ -273,25 +254,9 @@ const MenuPage = () => {
           animation: float 20s ease-in-out infinite;
         }
 
-        .taco-1 {
-          top: 20%;
-          left: 10%;
-          animation-duration: 25s;
-        }
-
-        .taco-2 {
-          top: 60%;
-          right: 15%;
-          animation-duration: 30s;
-          animation-delay: 5s;
-        }
-
-        .taco-3 {
-          bottom: 20%;
-          left: 50%;
-          animation-duration: 22s;
-          animation-delay: 10s;
-        }
+        .taco-1 { top: 20%; left: 10%; animation-duration: 25s; }
+        .taco-2 { top: 60%; right: 15%; animation-duration: 30s; animation-delay: 5s; }
+        .taco-3 { bottom: 20%; left: 50%; animation-duration: 22s; animation-delay: 10s; }
 
         @keyframes float {
           0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -302,10 +267,7 @@ const MenuPage = () => {
 
         .pattern-overlay {
           position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          inset: 0;
           background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="taco-pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="12" fill="none" stroke="white" stroke-width="1" opacity="0.05"/><circle cx="20" cy="20" r="5" fill="white" opacity="0.03"/></pattern></defs><rect width="100" height="100" fill="url(%23taco-pattern)"/></svg>') repeat;
           opacity: 0.5;
         }
@@ -385,10 +347,7 @@ const MenuPage = () => {
         }
 
         @keyframes slideUp {
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          to { opacity: 1; transform: translateY(0); }
         }
 
         .menu-card:hover {
@@ -416,18 +375,13 @@ const MenuPage = () => {
 
         .card-overlay {
           position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          inset: 0;
           background: linear-gradient(to bottom, transparent 0%, rgba(219, 11, 0, 0.2) 100%);
           opacity: 0;
           transition: opacity 0.4s ease;
         }
 
-        .menu-card:hover .card-overlay {
-          opacity: 1;
-        }
+        .menu-card:hover .card-overlay { opacity: 1; }
 
         .card-tag {
           position: absolute;
@@ -450,9 +404,7 @@ const MenuPage = () => {
           50% { transform: scale(1.05); }
         }
 
-        .card-content {
-          padding: 2rem;
-        }
+        .card-content { padding: 2rem; }
 
         .card-title {
           font-family: 'Bukhari Script', cursive;
@@ -571,10 +523,7 @@ const MenuPage = () => {
           transition: left 0.5s ease;
         }
 
-        .main-order-btn:hover::before {
-          left: 100%;
-        }
-
+        .main-order-btn:hover::before { left: 100%; }
         .main-order-btn:hover {
           transform: translateY(-3px);
           box-shadow: 0 15px 40px rgba(219, 11, 0, 0.5);
@@ -583,10 +532,7 @@ const MenuPage = () => {
         /* Modal */
         .modal-overlay {
           position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          inset: 0;
           background: rgba(0, 0, 0, 0.85);
           display: flex;
           align-items: center;
@@ -596,10 +542,7 @@ const MenuPage = () => {
           animation: fadeIn 0.3s ease;
         }
 
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .modal-content {
           background: #F0F2E4;
@@ -615,14 +558,8 @@ const MenuPage = () => {
         }
 
         @keyframes slideIn {
-          from { 
-            transform: translateY(50px) scale(0.9);
-            opacity: 0;
-          }
-          to { 
-            transform: translateY(0) scale(1);
-            opacity: 1;
-          }
+          from { transform: translateY(50px) scale(0.9); opacity: 0; }
+          to { transform: translateY(0) scale(1); opacity: 1; }
         }
 
         .close-modal {
@@ -643,23 +580,14 @@ const MenuPage = () => {
           align-items: center;
           justify-content: center;
         }
-
-        .close-modal:hover {
-          transform: rotate(90deg);
-          background: #FF1744;
-        }
+        .close-modal:hover { transform: rotate(90deg); background: #FF1744; }
 
         .modal-image-section {
           position: relative;
           height: 400px;
           background: linear-gradient(45deg, #FFB4E1, #FFD9F0);
         }
-
-        .modal-image {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
+        .modal-image { width: 100%; height: 100%; object-fit: cover; }
 
         .modal-tag {
           position: absolute;
@@ -720,7 +648,6 @@ const MenuPage = () => {
           box-shadow: 0 8px 25px rgba(219, 11, 0, 0.4);
           width: 100%;
         }
-
         .modal-order-btn:hover {
           transform: translateY(-2px);
           box-shadow: 0 10px 30px rgba(219, 11, 0, 0.5);
@@ -735,84 +662,28 @@ const MenuPage = () => {
         }
 
         @media (max-width: 768px) {
-          .menu-header {
-            padding: 3rem 1.5rem;
-          }
-
-          .menu-title {
-            font-size: 3rem;
-          }
-
-          .menu-subtitle {
-            font-size: 1rem;
-          }
-
-          .menu-grid-container {
-            padding: 0 1rem 3rem;
-          }
-
-          .menu-grid {
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-          }
-
-          .card-content {
-            padding: 1.5rem;
-          }
-
-          .modal-content {
-            grid-template-columns: 1fr;
-            max-height: 90vh;
-            overflow-y: auto;
-          }
-
-          .modal-image-section {
-            height: 250px;
-          }
-
-          .modal-info {
-            padding: 2rem;
-          }
-
-          .modal-title {
-            font-size: 2rem;
-          }
-
-          .cta-section h2 {
-            font-size: 2rem;
-          }
-
-          .cta-section p {
-            font-size: 1rem;
-          }
+          .menu-header { padding: 3rem 1.5rem; }
+          .menu-title { font-size: 3rem; }
+          .menu-subtitle { font-size: 1rem; }
+          .menu-grid-container { padding: 0 1rem 3rem; }
+          .menu-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+          .card-content { padding: 1.5rem; }
+          .modal-content { grid-template-columns: 1fr; max-height: 90vh; overflow-y: auto; }
+          .modal-image-section { height: 250px; }
+          .modal-info { padding: 2rem; }
+          .modal-title { font-size: 2rem; }
+          .cta-section h2 { font-size: 2rem; }
+          .cta-section p { font-size: 1rem; }
         }
 
         @media (max-width: 480px) {
-          .header-logo {
-            width: 80px;
-            height: 80px;
-          }
-
-          .menu-title {
-            font-size: 2.5rem;
-          }
-
-          .card-title {
-            font-size: 1.5rem;
-          }
-
-          .card-price {
-            font-size: 1.5rem;
-          }
-
-          .order-btn {
-            padding: 10px 20px;
-            font-size: 0.8rem;
-          }
-
-          .floating-taco {
-            font-size: 3rem;
-          }
+          .header-logo { width: 80px; height: 80px; }
+          .menu-title { font-size: 2.5rem; }
+          .card-title { font-size: 1.5rem; }
+          .card-price { font-size: 1.5rem; }
+          .order-btn { padding: 10px 20px; font-size: 0.8rem; }
+          .floating-taco { font-size: 3rem; }
+          .back-home-btn { top: 12px; right: 12px; padding: 8px 14px; }
         }
       `}</style>
     </div>
