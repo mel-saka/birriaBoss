@@ -26,6 +26,17 @@ const  ComingSoon = () => {
     return () => clearInterval(interval);
   }, [foodImages.length]);
 
+  // *** Added: log whether device is Apple or not ***
+  useEffect(() => {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    const isiOS = /iPad|iPhone|iPod/.test(ua);
+    const isMacTouch = /Macintosh/.test(ua) && navigator.maxTouchPoints > 0; // iPadOS 13+ reports Macintosh
+    const isMac = /Macintosh/.test(ua) && !isMacTouch;
+    const isApple = isiOS || isMac || isMacTouch;
+    console.log(`[BirriaBoss] Apple device detected: ${isApple}`, { isiOS, isMac, isMacTouch, ua });
+  }, []);
+  // *** End addition ***
+
   const handleSocialClick = (url) => {
     window.open(url, '_blank');
   };

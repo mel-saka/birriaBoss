@@ -7,6 +7,7 @@ const BrriaBossHome = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [hoveredFeature, setHoveredFeature] = useState(null);
+  const [isApple, setIsApple] = useState(false); // <-- added
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +25,18 @@ const BrriaBossHome = () => {
       clearInterval(slideInterval);
     };
   }, []);
+
+  // <-- added: detect Apple device and log to console
+  useEffect(() => {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    const isiOS = /iPad|iPhone|iPod/.test(ua);
+    const isMacTouch = /Macintosh/.test(ua) && navigator.maxTouchPoints > 0; // iPadOS 13+ reports Macintosh
+    const isMac = /Macintosh/.test(ua) && !isMacTouch;
+    const apple = isiOS || isMac || isMacTouch;
+    setIsApple(apple);
+    console.log(`[BirriaBoss] Apple device detected (homepage): ${apple}`, { isiOS, isMac, isMacTouch, ua });
+  }, []);
+  // <-- end added
 
   const handleNavigation = (path, external = false) => {
     if (external) {
@@ -96,7 +109,7 @@ const BrriaBossHome = () => {
   ];
 
   return (
-    <div className="birria-home">
+    <div className={`birria-home ${isApple ? 'apple-device' : ''}`}>
       {/* Animated Background */}
       <div className="background-effects">
         <div className="floating-element el-1" style={{ transform: `translateY(${scrollY * 0.3}px)` }}>🌮</div>
@@ -352,11 +365,11 @@ const BrriaBossHome = () => {
             </button>
             {/* NEW: TikTok */}
             <button
-  className="social-btn tiktok"
-  onClick={() => handleNavigation('https://www.tiktok.com/@birriabossnz', true)}
->
-  <TikTokIcon /> TikTok
-</button>
+              className="social-btn tiktok"
+              onClick={() => handleNavigation('https://www.tiktok.com/@birriabossnz', true)}
+            >
+              <TikTokIcon /> TikTok
+            </button>
 
           </div>
         </div>
@@ -1121,11 +1134,11 @@ const BrriaBossHome = () => {
         }
 
         /* NEW: TikTok hover */
-  .social-btn.tiktok:hover {
-  background: #000;
-  color: #fff;
-  border-color: #000;
-}
+        .social-btn.tiktok:hover {
+          background: #000;
+          color: #fff;
+          border-color: #000;
+        }
 
 
         /* Final CTA */
@@ -1345,6 +1358,20 @@ const BrriaBossHome = () => {
             justify-content: center;
           }
         }
+
+        /* ---- Added: Apple-only fallback font for Bukhari targets ---- */
+        .apple-device .logo-text,
+        .apple-device .main-title,
+        .apple-device .section-title,
+        .apple-device .bestseller-info h3,
+        .apple-device .story-text h2,
+        .apple-device .final-cta h2 {
+          font-family: 'Arial Black', 'Helvetica', sans-serif !important;
+          font-weight: 900 !important;
+          letter-spacing: 2px;
+          text-transform: none;
+        }
+        /* ---- End Apple-only overrides ---- */
       `}</style>
     </div>
   );
