@@ -173,7 +173,7 @@ const BirriaRoulette = () => {
   outerBorderWidth={15}
   radiusLineColor={colors.white}
   radiusLineWidth={3}
-  fontSize={12} // This sets the default, overridden by `data` fontSize
+  fontSize={12} // This sets the default, overridden by `data` fontSiz
   textDistance={60}
 />
 
