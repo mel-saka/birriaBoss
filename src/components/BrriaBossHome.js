@@ -252,6 +252,36 @@ const BrriaBossHome = () => {
         </div>
       </section>
 
+      {/* Social Media Section (moved here) */}
+      <section className="social-section">
+        <div className="container">
+          <h2 className="section-title">FOLLOW THE BIRRIA JOURNEY</h2>
+          <p className="social-subtitle">Join our community and stay updated with the latest!</p>
+          <div className="social-buttons">
+            <button 
+              className="social-btn instagram"
+              onClick={() => handleNavigation('https://www.instagram.com/birriabossnz/', true)}
+            >
+              <Instagram /> @birriabossnz
+            </button>
+            <button 
+              className="social-btn facebook"
+              onClick={() => handleNavigation('https://www.facebook.com/people/Birria-Boss-NZ/61559106840820/?_rdr', true)}
+            >
+              <Facebook /> Birria Boss NZ
+            </button>
+            {/* NEW: TikTok */}
+            <button
+              className="social-btn tiktok"
+              onClick={() => handleNavigation('https://www.tiktok.com/@birriabossnz', true)}
+            >
+              <TikTokIcon /> TikTok
+            </button>
+
+          </div>
+        </div>
+      </section>
+
       {/* Best Sellers Section */}
       <section className="bestsellers-section">
         <div className="container">
@@ -361,36 +391,6 @@ const BrriaBossHome = () => {
                 View Full Hours
               </button>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Social Media Section */}
-      <section className="social-section">
-        <div className="container">
-          <h2 className="section-title">FOLLOW THE BIRRIA JOURNEY</h2>
-          <p className="social-subtitle">Join our community and stay updated with the latest!</p>
-          <div className="social-buttons">
-            <button 
-              className="social-btn instagram"
-              onClick={() => handleNavigation('https://www.instagram.com/birriabossnz/', true)}
-            >
-              <Instagram /> @birriabossnz
-            </button>
-            <button 
-              className="social-btn facebook"
-              onClick={() => handleNavigation('https://www.facebook.com/people/Birria-Boss-NZ/61559106840820/?_rdr', true)}
-            >
-              <Facebook /> Birria Boss NZ
-            </button>
-            {/* NEW: TikTok */}
-            <button
-              className="social-btn tiktok"
-              onClick={() => handleNavigation('https://www.tiktok.com/@birriabossnz', true)}
-            >
-              <TikTokIcon /> TikTok
-            </button>
-
           </div>
         </div>
       </section>
